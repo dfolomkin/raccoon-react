@@ -1,0 +1,45 @@
+@import '~styles/fonts';
+@import '~styles/color-scheme';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  font-family: 'PT Sans Narrow';
+  font-weight: 400;
+  font-size: 1.5rem;
+  color: #666678;
+}
+
+.main {
+  display: flex;
+  z-index: 400;
+  width: 100%;
+  @media (min-width: 1024px) {
+    flex-direction: row;
+    max-width: ~'calc(1024px - 2*20px)';
+  }
+  @media (min-width: 480px) and (max-width: 1023px) {
+    flex-direction: column-reverse;
+  }
+  @media (max-width: 479px) {
+    flex-direction: column-reverse;
+  }
+}
+
+// idk for what it is
+main {
+  @media (max-width: 1023px) {
+  }
+}
+
+.main--fixed-header {
+  position: relative;
+  @media (min-width: 480px) and (max-width: 1023px) {
+    top: 15rem;
+  }
+  @media (max-width: 479px) {
+    top: 12.2rem;
+  }
+}

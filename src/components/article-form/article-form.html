@@ -1,0 +1,34 @@
+<section class="section">
+    <form class="section__elem" ng-submit="$ctrl.onSubmit()">
+        <div class="form-group" ng-if="$ctrl.id && !$ctrl.file">
+            <img class="form-group__preview" ng-src="uploads/{{$ctrl.article.image}}" alt="{{$ctrl.article.image}}">
+        </div>
+        <div class="form-group">
+            <label for="select_image" class="form-group__label">Select image</label>
+            <input id="select_image" type="file" ngf-select ng-model="$ctrl.file">
+        </div>
+        <div class="form-group">
+            <label for="author" class="form-group__label">Author</label>
+            <input id="author" class="form-group__input" type="text" ng-model="$ctrl.article.author" required>
+        </div>
+        <div class="form-group">
+            <label for="title" class="form-group__label">Title</label>
+            <input id="title" class="form-group__input" type="text" ng-model="$ctrl.article.title" required>
+        </div>
+        <div class="form-group">
+            <label for="content" class="form-group__label">Content</label>
+            <textarea id="content" class="form-group__text" rows="2" maxlength="100" ng-model="$ctrl.article.content" ng-change="$ctrl.onChangeContent()" required></textarea>
+            <div class="form-group__text-counter">{{$ctrl.charcount}} / 100</div>
+        </div>
+        <div class="form-group">
+            <label for="tags" class="form-group__label">Tags</label>
+            <input id="tags" class="form-group__input" type="text" ng-model="$ctrl.articleTags" ng-change="$ctrl.onChangeTags()">
+        </div>
+        <div class="form-group form-group__control">
+            <button class="form-group__button" type="submit"><i class="fa fa-check" aria-hidden="true"></i>&ensp;Save</button>
+            <button class="form-group__button" type="button" ng-click="$ctrl.onClickCancel()"><i class="fa fa-times" aria-hidden="true"></i>&ensp;Cancel</button>
+        </div>
+    </form>
+</section>
+
+<aside class="aside js-aside"></aside>

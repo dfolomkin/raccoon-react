@@ -1,0 +1,12 @@
+<section class="section">
+    <div class="section__elem control-panel">
+        <articles-filter-bar class="filter-bar"></articles-filter-bar>
+        <button class="form-group__button add-button" type="button" ng-click="$ctrl.onClickAdd()"><i class="fa fa-plus" aria-hidden="true"></i>&emsp;Add article</button>
+    </div>
+
+    <article class="section__elem article" ng-repeat="article in $ctrl.articles | articlesListFilter:$ctrl.filterQuery" article="article" on-delete="$ctrl.deleteArticle()"></article>
+
+    <loader></loader>
+</section>
+
+<aside class="aside js-aside"></aside>

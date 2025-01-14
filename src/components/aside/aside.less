@@ -1,0 +1,188 @@
+@import '~styles/fonts';
+@import '~styles/color-scheme';
+
+/*************************************************************\
+            ASIDE
+\*************************************************************/
+
+.aside {
+  @media (min-width: 1024px) {
+    width: 260px;
+    margin-left: 20px;
+  }
+}
+
+.aside__elem {
+  @media (min-width: 1024px) {
+    margin-bottom: 3rem;
+  }
+}
+
+.note {
+  @media (min-width: 1024px) {
+    display: flex;
+    flex-direction: column;
+  }
+  @media (min-width: 480px) and (max-width: 1023px) {
+    &--about,
+    &--info {
+      display: flex;
+      position: absolute;
+      z-index: 500;
+      width: 100%;
+      top: 12rem;
+      max-height: 0;
+      opacity: 0;
+      transition: 0.3s ease-out;
+      background-color: #fff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
+    }
+    &--about {
+      flex-direction: row;
+    }
+    &--info {
+      flex-direction: row-reverse;
+    }
+    &--tags {
+      margin: 0 4.2rem 3rem;
+    }
+  }
+  @media (max-width: 479px) {
+    display: flex;
+    flex-direction: column-reverse;
+    position: absolute;
+    z-index: 500;
+    width: 100%;
+    top: 9.2rem;
+    max-height: 0;
+    opacity: 0;
+    transition: 0.3s ease-out;
+    background-color: @color-navbar-border;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+  }
+  &--down {
+    opacity: 1;
+    max-height: 30rem;
+  }
+
+  &--fixed {
+    @media (min-width: 480px) and (max-width: 1023px) {
+      position: fixed;
+      top: 5rem;
+    }
+    @media (max-width: 479px) {
+      position: fixed;
+      top: 4.2rem;
+    }
+  }
+
+  &__body {
+    @media (min-width: 480px) and (max-width: 1023px) {
+      .note--about & {
+        padding: 3rem ~'calc(4.2rem + 20px)' 1rem 2rem;
+      }
+      .note--info & {
+        padding: 3rem 2rem 1rem ~'calc(4.2rem + 20px)';
+      }
+    }
+    @media (max-width: 479px) {
+      padding: 3rem 2rem 1rem;
+    }
+    overflow: hidden;
+    text-align: justify;
+    line-height: 1.2em;
+  }
+
+  &__header {
+    font-family: 'Trend Sans One';
+    text-transform: uppercase;
+
+    @media (min-width: 1024px) {
+      position: relative;
+      margin-bottom: 1em;
+      padding-left: 1.7em;
+      padding-bottom: 0.22em;
+      border-bottom: 3px solid @color-text-header;
+      font-size: 1.2em;
+      line-height: 1em;
+      color: @color-text-header;
+
+      .note &:after {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1.44em;
+        height: 1.22em;
+        background-color: @color-text-header;
+        color: #fff;
+        text-align: center;
+      }
+
+      .note--about &:after {
+        content: '?';
+      }
+
+      .note--info &:after {
+        content: '!';
+      }
+
+      .note--tags & {
+        display: none;
+      }
+    }
+    @media (min-width: 480px) and (max-width: 1023px) {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      width: 4.2rem;
+      min-height: 13rem;
+      background-color: @color-social-default;
+      font-size: 2.2rem;
+      color: @color-text-header;
+
+      .note--tags & {
+        display: none;
+      }
+    }
+    @media (max-width: 479px) {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      padding: 1rem 2rem 1rem;
+      font-size: 1.9rem;
+      color: rgba(255, 255, 255, 0.5);
+    }
+  }
+
+  &__title {
+    @media (min-width: 480px) and (max-width: 1023px) {
+      .note--about & {
+        position: relative;
+        left: -0.4rem;
+        transform: rotate(-90deg);
+      }
+      .note--info & {
+        position: relative;
+        left: 0.2rem;
+        font-size: 1.3rem;
+        transform: rotate(90deg);
+        text-align: center;
+        line-height: 1.2em;
+      }
+    }
+  }
+
+  &__icon {
+    @media (min-width: 480px) {
+      display: none;
+    }
+    margin-left: 0.4em;
+    width: 1em;
+    height: 1em;
+    fill: currentColor;
+    cursor: pointer;
+  }
+}
