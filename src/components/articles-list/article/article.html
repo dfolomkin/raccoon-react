@@ -1,0 +1,34 @@
+<img class="article__image" ng-src="uploads/{{$ctrl.article.image}}" alt="{{$ctrl.article.image}}">
+
+<h1 class="article__title">
+	{{$ctrl.article.title}}
+</h1>
+
+<footer class="article__info info-panel">
+	<div class="info-panel__group">
+		<div class="info-elem">
+			<svg class="info-elem__icon">
+				<use xlink:href="dist/img/sprite.svg#icon-clock"></use>
+			</svg>
+			<time>{{$ctrl.article.date}}</time>
+		</div>
+
+		<div class="info-elem">
+			<svg class="info-elem__icon">
+				<use xlink:href="dist/img/sprite.svg#icon-footstep"></use>
+			</svg>
+			<address>{{$ctrl.article.author}}</address>
+		</div>
+	</div>
+
+	<socials-list class="info-panel__group social-block" socials='$ctrl.article.socials'></socials-list>
+</footer>
+
+<div class="article__content">
+	{{$ctrl.article.content}}
+</div>
+
+<div class="article__control-panel">
+	<button class="article__button" type="button" ng-click="$ctrl.onClickEdit()"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+	<button class="article__button" type="button" ng-click="$ctrl.onClickDelete()"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+</div>
