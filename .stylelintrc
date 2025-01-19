@@ -1,0 +1,13 @@
+{
+  "extends": ["stylelint-config-standard-less"],
+  "defaultSeverity": "warning",
+  "rules": {
+    "property-no-unknown": [true, { "severity": "error" }],
+    "rule-empty-line-before": null,
+    "at-rule-empty-line-before": null,
+    "selector-class-pattern": null,
+    "media-feature-range-notation": "prefix",
+    "color-function-notation": "legacy",
+    "alpha-value-notation": "number"
+  }
+}

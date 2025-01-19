@@ -1,0 +1,51 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "outDir": "./dist/",
+    "paths": {
+      "shared": [
+        "./src/shared"
+      ],
+      "shared/*": [
+        "./src/shared/*"
+      ],
+      "components": [
+        "./src/components"
+      ],
+      "components/*": [
+        "./src/components/*"
+      ],
+      "pages": [
+        "./src/pages"
+      ],
+      "pages/*": [
+        "./src/pages/*"
+      ],
+      "services": [
+        "./src/services"
+      ],
+      "services/*": [
+        "./src/services/*"
+      ],
+      "images": [
+        "./src/assets/images"
+      ],
+      "images/*": [
+        "./src/assets/images/*"
+      ],
+    },
+    "noImplicitAny": true,
+    "module": "esnext",
+    "target": "es6",
+    "jsx": "react",
+    "allowJs": true,
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "plugins": [
+      {
+        "name": "typescript-plugin-css-modules",
+      }
+    ]
+  },
+}

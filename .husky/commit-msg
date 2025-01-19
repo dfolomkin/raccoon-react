@@ -1,0 +1,8 @@
+message="$(cat $1)"
+requiredPattern="^(((chore|feat|test|fix|revert)\(.+\):\s)|Merge).+$"
+if ! [[ $message =~ $requiredPattern ]];
+then
+  echo "❌ Incorrect commit message format!"
+  echo "Correct example: \"chore(config): config the project\""
+  exit 1
+fi
