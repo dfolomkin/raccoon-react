@@ -2,12 +2,14 @@
 
 ### Scripts
 
-`npm run server` to run json-server.
+`npm run server` to run json-server
 
-`npm start` to run webpack-dev-server.
+`npm start` to run the app (with webpack-dev-server)
 
-`npm run build` to build the project once.
+`npm run build` to build the project in dev mode
 
-`npm run watch` to continuously watch changes and rebuild the project.
+`npm run build:prod` to build the project in prod mode
 
-`npm run eslint` to check code with ESList.
+`npm run eslint` to check the code with eslist
+
+`npm run eslint:fix` to fix all auto-fixable issues with eslist

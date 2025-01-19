@@ -1,0 +1,7 @@
+{
+  "extends": ["stylelint-config-standard-less"],
+  "defaultSeverity": "warning",
+  "rules": {
+    "property-no-unknown": [true, { "severity": "error" }]
+  }
+}
