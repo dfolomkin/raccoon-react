@@ -3,10 +3,9 @@
     {
       "id": 1,
       "author": "E.Hyperraccoon",
-      "image": "photo_01.png",
-      "title": "Blogotitle of blogopost about blogoflowers",
-      "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent id tempor libero. Etiam condimentu",
-      "date": "19:09 Sep 29, 2017",
+      "title": "Lilies of the Valley: Delicate Spring Beauties",
+      "content": "Lilies of the valley (Convallaria majalis) are fragrant, bell-shaped flowers that bloom in spring. Symbolizing humility and happiness, these shade-loving perennials thrive in moist soil. Though charming, they are toxic if ingested. Their sweet scent and dainty white blooms make them a garden favorite.",
+      "tags": ["raccoonBlog", "hyperRaccoon"],
       "socials": {
         "facebook": 16,
         "gplus": 7,
@@ -14,15 +13,15 @@
         "vk": 16,
         "yaru": 1
       },
-      "tags": ["raccoonBlog", "hyperRaccoon"]
+      "date": 1506694140000,
+      "imageFileName": "photo_01.png"
     },
     {
       "id": 2,
       "author": "Rocket Raccoon",
-      "image": "photo_02.png",
-      "title": "Blogotitle about colorful",
-      "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent id tempor libero. Etiam condimentu",
-      "date": "19:09 Sep 29, 2017",
+      "title": "Watercolor: The Art of Fluidity",
+      "content": "Watercolor is a delicate painting medium using pigments suspended in water. Known for its transparency and luminosity, it allows for soft blends and spontaneous effects. Ideal for landscapes and illustrations, watercolor requires skill to control but rewards with ethereal, dreamy results. A favorite for artists seeking lightness and flow.",
+      "tags": ["raccoonBlog", "rocketRaccoon"],
       "socials": {
         "facebook": 160,
         "gplus": 70,
@@ -30,9 +29,13 @@
         "vk": 160,
         "yaru": 10
       },
-      "tags": ["raccoonBlog", "rocketRaccoon"]
+      "date": 1507738140000,
+      "imageFileName": "photo_02.png"
     }
   ],
+  "stats": {
+    "lastId": 2
+  },
   "tags": [
     {
       "id": 1,

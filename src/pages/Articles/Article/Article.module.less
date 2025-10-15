@@ -1,0 +1,105 @@
+@import '../../../assets/styles/colors.less';
+@import '../../../assets/styles/fonts.css';
+
+.article {
+  position: relative;
+
+  &__image {
+    display: block;
+    width: 100%;
+
+    @media (min-width: 480px) {
+      height: 20rem;
+    }
+    @media (max-width: 479px) {
+      height: 15rem;
+    }
+
+    object-fit: cover;
+  }
+
+  &__title {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    font-size: 1.6em;
+
+    @media (max-width: 479px) {
+      background-color: @color-social-default;
+      text-align: center;
+    }
+  }
+
+  &__info {
+    margin-bottom: 2rem;
+  }
+
+  &__content {
+    line-height: 1.2em;
+    text-align: justify;
+  }
+
+  &__controlPanel {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 3.6rem;
+    padding: 0.4rem 1.2rem;
+    background-color: @color-transparent-95;
+    border-radius: 0 0 0 0.6rem;
+  }
+
+  &__button {
+    background: none;
+    border: 0;
+    font-size: 2rem;
+    color: @color-tint-1;
+    cursor: pointer;
+
+    &:not(:last-child) {
+      margin-right: 0.2rem;
+    }
+
+    &:hover {
+      color: @color-text-header;
+    }
+  }
+}
+
+.infoPanel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem 0;
+
+  @media (min-width: 480px) {
+    border-top: 1px solid @color-grayscale-6;
+    border-bottom: 1px solid @color-grayscale-6;
+  }
+  @media (max-width: 479px) {
+    border-bottom: 2px solid @color-social-default;
+  }
+
+  &__group {
+    display: flex;
+
+    &:not(:last-child) {
+      margin-right: 2rem;
+    }
+  }
+}
+
+.infoElem {
+  display: flex;
+  align-items: center;
+
+  &:not(:last-child) {
+    margin-right: 2rem;
+  }
+
+  &__icon {
+    width: 1.2em;
+    height: 1.2em;
+    margin-right: 0.2em;
+    fill: currentcolor;
+  }
+}
