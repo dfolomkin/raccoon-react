@@ -1,11 +1,15 @@
 import React, { Component } from 'react'
 import clsx from 'clsx'
+import { connect, ConnectedProps } from 'react-redux'
+import { compose } from 'redux'
 
 import { FormButton } from 'components'
-import { postArticle, putArticle } from 'services'
 import { ROUTES, UPLOADS_BASE_URL } from 'shared/constants'
 import { RouterProps, withRouter } from 'shared/hocs'
-import { ApiResponse, ArticleForm, EmptyObject, IArticle } from 'shared/types'
+import { ArticleForm, EmptyObject, IArticle } from 'shared/types'
+import { isEqual } from 'shared/utils'
+import { RootState } from 'store'
+import { createArticleThunk, updateArticleThunk } from 'store/actions/articles'
 
 import styles from './ArticleEdit.module.less'
 
@@ -27,18 +31,27 @@ interface FormFields {
   [FORM_FIELDS.imageFile]: HTMLInputElement
 }
 
+const connector = connect(
+  (state: RootState) => ({ lastArticle: state.lastArticle }),
+  {
+    updateArticleThunk,
+    createArticleThunk,
+  }
+)
+const enhance = compose<React.ComponentType<EmptyObject>>(withRouter, connector)
+
+type ReduxProps = ConnectedProps<typeof connector>
+type ArticleEditProps = RouterProps & ReduxProps
+
 interface ArticleEditState {
   articleData: ArticleForm | null
   isChanged: boolean
 }
 
-class ArticleEditBase extends Component<
-  EmptyObject & RouterProps,
-  ArticleEditState
-> {
+class ArticleEditBase extends Component<ArticleEditProps, ArticleEditState> {
   routerState: IArticle | null = this.props.router.location.state
 
-  constructor(props: EmptyObject & RouterProps) {
+  constructor(props: ArticleEditProps) {
     super(props)
     this.state = {
       articleData: this.routerState
@@ -63,6 +76,13 @@ class ArticleEditBase extends Component<
     this.handleFormChange = this.handleFormChange.bind(this)
     this.handleFormSubmit = this.handleFormSubmit.bind(this)
     this.handleCancelClick = this.handleCancelClick.bind(this)
+  }
+
+  async componentDidUpdate(prevProps: Readonly<ArticleEditProps>) {
+    if (!isEqual(this.props.lastArticle, prevProps.lastArticle))
+      if (this.props.lastArticle.data) {
+        await this.props.router.navigate(ROUTES.articles)
+      }
   }
 
   handleFormChange(event: React.ChangeEvent<HTMLFormElement>) {
@@ -135,16 +155,10 @@ class ArticleEditBase extends Component<
       formData.set('imageFile', imageFile.blob, imageFileName)
     }
 
-    let response: ApiResponse<IArticle>
-
     if (this.routerState) {
-      response = await putArticle(this.routerState.id, formData)
+      await this.props.updateArticleThunk(this.routerState.id, formData)
     } else {
-      response = await postArticle(formData)
-    }
-
-    if (!response.error) {
-      await this.props.router.navigate(ROUTES.articles)
+      await this.props.createArticleThunk(formData)
     }
   }
 
@@ -270,4 +284,4 @@ class ArticleEditBase extends Component<
   }
 }
 
-export const ArticleEdit = withRouter<EmptyObject>(ArticleEditBase)
+export const ArticleEdit = enhance(ArticleEditBase)

@@ -1,31 +1,39 @@
 import React from 'react'
 import clsx from 'clsx'
+import { connect, ConnectedProps } from 'react-redux'
+import { compose } from 'redux'
 
 import { FormButton, PageLoader } from 'components'
-import { getArticles } from 'services'
 import { ROUTES } from 'shared/constants'
 import { RouterProps, withRouter } from 'shared/hocs'
-import { ApiResponse, EmptyObject, IArticle } from 'shared/types'
+import { EmptyObject } from 'shared/types'
 import { getUrlQueryParamValue, objectIncludes } from 'shared/utils'
+import { RootState } from 'store'
+import { readArticlesThunk } from 'store/actions/articles'
 
 import { Article } from './Article'
 import { FilterBar } from './FilterBar'
 
 import styles from './Articles.module.less'
 
+const connector = connect(
+  (state: RootState) => ({ articles: state.articles }),
+  {
+    readArticlesThunk,
+  }
+)
+const enhance = compose<React.ComponentType<EmptyObject>>(withRouter, connector)
+
+type ReduxProps = ConnectedProps<typeof connector>
+type ArticlesProps = RouterProps & ReduxProps
 interface ArticlesState {
-  articles: ApiResponse<IArticle[]>
   filter: string
 }
 
-class ArticlesBase extends React.Component<
-  EmptyObject & RouterProps,
-  ArticlesState
-> {
-  constructor(props: EmptyObject & RouterProps) {
+class ArticlesBase extends React.Component<ArticlesProps, ArticlesState> {
+  constructor(props: ArticlesProps) {
     super(props)
     this.state = {
-      articles: { data: null, error: null },
       filter:
         getUrlQueryParamValue(
           this.props.router.location.search.slice(1),
@@ -37,10 +45,8 @@ class ArticlesBase extends React.Component<
     this.handleAddArticleClick = this.handleAddArticleClick.bind(this)
   }
 
-  async componentDidMount(): Promise<void> {
-    const response = await getArticles()
-
-    this.setState({ articles: response })
+  async componentDidMount() {
+    await this.props.readArticlesThunk()
   }
 
   async handleAddArticleClick() {
@@ -56,8 +62,7 @@ class ArticlesBase extends React.Component<
   }
 
   render() {
-    const { data, error } = this.state.articles
-    const isLoading = !data && !error
+    const { data, error, isLoading } = this.props.articles
     const filteredData =
       data?.filter((item) =>
         objectIncludes(
@@ -95,4 +100,4 @@ class ArticlesBase extends React.Component<
   }
 }
 
-export const Articles = withRouter<EmptyObject>(ArticlesBase)
+export const Articles = enhance(ArticlesBase)

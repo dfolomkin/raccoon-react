@@ -1,3 +1,5 @@
+import lodashIsEqual from 'lodash/isEqual'
+
 export const debounce = <T extends unknown[], R>(
   fn: (...args: T) => R,
   ms: number
@@ -61,3 +63,7 @@ export const getUrlQueryParamValue = (
 
   return params[paramName]
 }
+
+export const isEqual = (first: unknown, second: unknown) =>
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
+  lodashIsEqual(first, second)

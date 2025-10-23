@@ -182,6 +182,7 @@ export default (env) => {
     resolve: {
       extensions: ['.tsx', '.jsx', '.ts', '.js'],
       alias: {
+        store: path.resolve(__dirname, 'src/store'),
         shared: path.resolve(__dirname, 'src/shared'),
         components: path.resolve(__dirname, 'src/components'),
         pages: path.resolve(__dirname, 'src/pages'),

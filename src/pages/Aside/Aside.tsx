@@ -1,13 +1,20 @@
 import React from 'react'
 import clsx from 'clsx'
+import { connect, ConnectedProps } from 'react-redux'
+import { compose } from 'redux'
 
 import { Button, Icon, Loader, Tags } from 'components'
-import { getTags } from 'services'
-import { ApiResponse, ITag } from 'shared/types'
+import { EmptyObject } from 'shared/types'
+import { RootState } from 'store'
+import { readTagsThunk } from 'store/actions/tags'
 
 import styles from './Aside.module.less'
 
-interface AsideProps {
+const connector = connect((state: RootState) => ({ tags: state.tags }), {
+  readTagsThunk,
+})
+
+interface AsideOwnProps {
   isAboutOpen: boolean
   isInfoOpen: boolean
   isTagsOpen: boolean
@@ -16,28 +23,19 @@ interface AsideProps {
   onTagsToggle: () => void
 }
 
-interface AsideState {
-  tags: ApiResponse<ITag[]>
-}
+const enhance = compose<React.ComponentType<AsideOwnProps>>(connector)
 
-export class Aside extends React.Component<AsideProps, AsideState> {
-  constructor(props: AsideProps) {
-    super(props)
-    this.state = {
-      tags: { data: null, error: null },
-    }
-  }
+type ReduxProps = ConnectedProps<typeof connector>
+type AsideProps = ReduxProps & AsideOwnProps
 
-  async componentDidMount(): Promise<void> {
-    const response = await getTags()
-
-    this.setState({ tags: response })
+class AsideBase extends React.Component<AsideProps, EmptyObject> {
+  async componentDidMount() {
+    await this.props.readTagsThunk()
   }
 
   render() {
-    const { data, error } = this.state.tags
-    const isLoading = !data && !error
-    const { isAboutOpen, isInfoOpen, isTagsOpen } = this.props
+    const { isAboutOpen, isInfoOpen, isTagsOpen, tags } = this.props
+    const { data, error, isLoading } = tags
 
     return (
       <>
@@ -125,3 +123,5 @@ export class Aside extends React.Component<AsideProps, AsideState> {
     )
   }
 }
+
+export const Aside = enhance(AsideBase)

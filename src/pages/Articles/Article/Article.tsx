@@ -1,28 +1,44 @@
 import React from 'react'
 import clsx from 'clsx'
 import moment from 'moment'
+import { connect, ConnectedProps } from 'react-redux'
+import { compose } from 'redux'
 
 import { Button, Icon, Modal, Socials } from 'components'
-import { deleteArticle } from 'services'
 import { ROUTES, UPLOADS_BASE_URL } from 'shared/constants'
 import { RouterProps, withRouter } from 'shared/hocs'
 import { IArticle } from 'shared/types'
+import { isEqual } from 'shared/utils'
+import { RootState } from 'store'
+import { deleteArticleThunk } from 'store/actions/articles'
 
 import styles from './Article.module.less'
 
-interface ArticleProps {
+const connector = connect(
+  (state: RootState) => ({ lastArticle: state.lastArticle }),
+  {
+    deleteArticleThunk,
+  }
+)
+
+interface ArticleOwnProps {
   articleData: IArticle
 }
+
+const enhance = compose<React.ComponentType<ArticleOwnProps>>(
+  withRouter,
+  connector
+)
+
+type ReduxProps = ConnectedProps<typeof connector>
+type ArticleProps = ArticleOwnProps & RouterProps & ReduxProps
 
 interface ArticleState {
   isDeleteModalOpen: boolean
 }
 
-class ArticleBase extends React.PureComponent<
-  ArticleProps & RouterProps,
-  ArticleState
-> {
-  constructor(props: ArticleProps & RouterProps) {
+class ArticleBase extends React.PureComponent<ArticleProps, ArticleState> {
+  constructor(props: ArticleProps) {
     super(props)
     this.state = {
       isDeleteModalOpen: false,
@@ -32,6 +48,13 @@ class ArticleBase extends React.PureComponent<
     this.handleDeleteClick = this.handleDeleteClick.bind(this)
     this.handleDeleteModalAccept = this.handleDeleteModalAccept.bind(this)
     this.handleDeleteModalCancel = this.handleDeleteModalCancel.bind(this)
+  }
+
+  async componentDidUpdate(prevProps: Readonly<ArticleProps>) {
+    if (!isEqual(this.props.lastArticle, prevProps.lastArticle))
+      if (this.props.lastArticle.data) {
+        await this.props.router.navigate(ROUTES.articles)
+      }
   }
 
   async handleEditClick() {
@@ -52,7 +75,7 @@ class ArticleBase extends React.PureComponent<
   async handleDeleteModalAccept() {
     const { id } = this.props.articleData
 
-    await deleteArticle(id)
+    await this.props.deleteArticleThunk(id)
 
     this.setState({
       isDeleteModalOpen: false,
@@ -130,4 +153,4 @@ class ArticleBase extends React.PureComponent<
   }
 }
 
-export const Article = withRouter<ArticleProps>(ArticleBase)
+export const Article = enhance(ArticleBase)

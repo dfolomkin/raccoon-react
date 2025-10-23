@@ -3,6 +3,12 @@
     "baseUrl": ".",
     "outDir": "./dist/",
     "paths": {
+      "store": [
+        "./src/store"
+      ],
+      "store/*": [
+        "./src/store/*"
+      ],
       "shared": [
         "./src/shared"
       ],

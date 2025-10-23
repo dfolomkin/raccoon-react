@@ -31,12 +31,14 @@ export interface ApiRawResponse<T> {
   error?: string
 }
 
+export interface ApiResponseError {
+  message: string
+  code: number
+}
+
 export interface ApiResponse<T> {
   data: T | null
-  error: {
-    message: string
-    code: number
-  }
+  error: ApiResponseError
 }
 
 export interface ApiResponseWithState<T> extends ApiResponse<T> {

@@ -69,7 +69,7 @@ export default defineConfig([
             // react and other packages + that start with @
             ['^react$', '^@?\\w'],
             // custom aliases imports
-            ['^(components|pages|services|shared)'],
+            ['^(components|pages|services|shared|store)'],
             // anything not matched in another group and relative imports starting with "../"
             ['^@', '^'],
             // relative imports from same folder "./"
