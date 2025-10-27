@@ -6,6 +6,6 @@ interface TagProps {
   caption: string
 }
 
-export function Tag({ caption }: TagProps) {
-  return <div className={styles.tag}>{caption}</div>
-}
+export const Tag: React.FC<TagProps> = ({ caption }) => (
+  <div className={styles.tag}>{caption}</div>
+)

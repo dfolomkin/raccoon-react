@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { debounce } from 'shared/utils'
 
@@ -9,39 +9,28 @@ interface FilterBarProps {
   onChange: (value: string) => void
 }
 
-interface FilterBarState {
-  value: string
-}
+export const FilterBar: React.FC<FilterBarProps> = ({
+  initValue,
+  onChange,
+}) => {
+  const [value, setValue] = useState(initValue)
 
-export class FilterBar extends React.Component<FilterBarProps, FilterBarState> {
-  constructor(props: FilterBarProps) {
-    super(props)
-    this.state = {
-      value: props.initValue,
-    }
+  const debouncedOnChange = debounce(onChange, 700)
 
-    this.handleInputChange = this.handleInputChange.bind(this)
-    this.debouncedOnChange = this.debouncedOnChange.bind(this)
+  const handleInputChange = (value: string) => {
+    setValue(value)
+    debouncedOnChange(value)
   }
 
-  debouncedOnChange = debounce(this.props.onChange, 700)
-
-  handleInputChange(value: string) {
-    this.setState({ value })
-    this.debouncedOnChange(value)
-  }
-
-  render() {
-    return (
-      <div className={styles.filterBar}>
-        <input
-          className={styles.filterBar__input}
-          type="text"
-          value={this.state.value}
-          onChange={(e) => this.handleInputChange(e.target.value)}
-        />
-        <i className={`${styles.filterBar__icon} fa-solid fa-filter`}></i>
-      </div>
-    )
-  }
+  return (
+    <div className={styles.filterBar}>
+      <input
+        className={styles.filterBar__input}
+        type="text"
+        value={value}
+        onChange={(e) => handleInputChange(e.target.value)}
+      />
+      <i className={`${styles.filterBar__icon} fa-solid fa-filter`}></i>
+    </div>
+  )
 }

@@ -11,7 +11,7 @@ const sizeMap = {
   medium: '9.6rem',
 }
 
-export function Loader({ size = 'small' }: LoaderProps) {
+export const Loader: React.FC<LoaderProps> = ({ size = 'small' }) => {
   const calculatedSize = sizeMap[size]
 
   return (

@@ -10,12 +10,10 @@ interface TagsProps {
   tagsList: ITag[]
 }
 
-export function Tags({ tagsList }: TagsProps) {
-  return (
-    <div className={styles.tagsBlock}>
-      {tagsList.map((item) => (
-        <Tag key={item.id} caption={item.name} />
-      ))}
-    </div>
-  )
-}
+export const Tags: React.FC<TagsProps> = ({ tagsList }) => (
+  <div className={styles.tagsBlock}>
+    {tagsList.map((item) => (
+      <Tag key={item.id} caption={item.name} />
+    ))}
+  </div>
+)

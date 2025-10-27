@@ -4,7 +4,6 @@ import { NavLink } from 'react-router-dom'
 
 import { Icon } from 'components'
 import { ROUTES } from 'shared/constants'
-import { RouterProps, withRouter } from 'shared/hocs'
 
 import { NavButton } from './NavButton'
 
@@ -29,7 +28,7 @@ interface HeaderProps {
   onTagsToggle: () => void
 }
 
-function HeaderBase({
+export const Header: React.FC<HeaderProps> = ({
   isMenuOpen,
   isInfoOpen,
   isAboutOpen,
@@ -38,61 +37,56 @@ function HeaderBase({
   onAboutToggle,
   onInfoToggle,
   onTagsToggle,
-}: HeaderProps & RouterProps) {
-  return (
-    <div className={styles.header}>
-      <div className={styles.logo}>
-        <span>racco</span>
-        <Icon.RaccoonNegative className={styles.logo__icon} />
-        <span>nblog</span>
+}) => (
+  <div className={styles.header}>
+    <div className={styles.logo}>
+      <span>racco</span>
+      <Icon.RaccoonNegative className={styles.logo__icon} />
+      <span>nblog</span>
+    </div>
+
+    <nav className={styles.navbar}>
+      <div className={styles.navbar__control}>
+        <NavButton isSwitchedOn={isAboutOpen} onClick={() => onAboutToggle()}>
+          ?
+        </NavButton>
+
+        <ul className={clsx(styles.menu, isMenuOpen && styles.note__down)}>
+          {menu.map((item) => {
+            const isActive = item.caption === 'latest'
+
+            return (
+              <li
+                key={item.caption}
+                className={clsx(
+                  styles.menu__item,
+                  isActive && styles.menu__item__active
+                )}
+              >
+                <NavLink to={item.path} className={styles.menu__link}>
+                  {item.caption}
+                </NavLink>
+              </li>
+            )
+          })}
+        </ul>
+
+        <NavButton isSwitchedOn={isInfoOpen} onClick={() => onInfoToggle()}>
+          !
+        </NavButton>
+
+        <NavButton isSwitchedOn={isTagsOpen} onClick={() => onTagsToggle()}>
+          <Icon.Tag className={styles.navbar__icon} />
+        </NavButton>
       </div>
 
-      <nav className={styles.navbar}>
-        <div className={styles.navbar__control}>
-          <NavButton isSwitchedOn={isAboutOpen} onClick={() => onAboutToggle()}>
-            ?
-          </NavButton>
-
-          <ul className={clsx(styles.menu, isMenuOpen && styles.note__down)}>
-            {menu.map((item) => {
-              // TODO: const isActive = props.router.location.pathname === item.path
-              const isActive = item.caption === 'latest'
-
-              return (
-                <li
-                  key={item.caption}
-                  className={clsx(
-                    styles.menu__item,
-                    isActive && styles.menu__item__active
-                  )}
-                >
-                  <NavLink to={item.path} className={styles.menu__link}>
-                    {item.caption}
-                  </NavLink>
-                </li>
-              )
-            })}
-          </ul>
-
-          <NavButton isSwitchedOn={isInfoOpen} onClick={() => onInfoToggle()}>
-            !
-          </NavButton>
-
-          <NavButton isSwitchedOn={isTagsOpen} onClick={() => onTagsToggle()}>
-            <Icon.Tag className={styles.navbar__icon} />
-          </NavButton>
-        </div>
-
-        <NavButton
-          isSwitchedOn={isMenuOpen}
-          onClick={() => onMenuToggle()}
-          isMenu
-        >
-          <Icon.Menu className={styles.navbar__icon} />
-        </NavButton>
-      </nav>
-    </div>
-  )
-}
-
-export const Header = withRouter<HeaderProps>(HeaderBase)
+      <NavButton
+        isSwitchedOn={isMenuOpen}
+        onClick={() => onMenuToggle()}
+        isMenu
+      >
+        <Icon.Menu className={styles.navbar__icon} />
+      </NavButton>
+    </nav>
+  </div>
+)

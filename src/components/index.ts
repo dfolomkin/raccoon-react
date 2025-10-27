@@ -1,6 +1,5 @@
 export { Header } from '../pages/Header'
 export { Button } from './Button'
-export { ErrorBoundary } from './ErrorBoundary'
 export { FormButton } from './FormButton'
 export { Icon } from './Icon'
 export { Loader } from './Loader'

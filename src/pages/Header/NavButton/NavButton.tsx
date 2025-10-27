@@ -3,28 +3,25 @@ import clsx from 'clsx'
 
 import styles from './NavButton.module.less'
 
-interface NavButtonProps {
+interface NavButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   isSwitchedOn: boolean
   isMenu?: boolean
 }
 
-export function NavButton({
+export const NavButton: React.FC<NavButtonProps> = ({
   children,
   isSwitchedOn,
   isMenu,
   ...props
-}: React.PropsWithChildren<NavButtonProps> &
-  React.ButtonHTMLAttributes<HTMLButtonElement>) {
-  return (
-    <button
-      className={clsx(
-        styles.navButton,
-        isSwitchedOn && styles.navButton__active,
-        isMenu && styles.navButtonMenu
-      )}
-      {...props}
-    >
-      <div className={styles.navButtonInner}>{children}</div>
-    </button>
-  )
-}
+}) => (
+  <button
+    className={clsx(
+      styles.navButton,
+      isSwitchedOn && styles.navButton__active,
+      isMenu && styles.navButtonMenu
+    )}
+    {...props}
+  >
+    <div className={styles.navButtonInner}>{children}</div>
+  </button>
+)

@@ -10,7 +10,7 @@ interface SocialsProps {
   countsMap: Record<ISocial, number>
 }
 
-export function Socials({ countsMap }: SocialsProps) {
+export const Socials: React.FC<SocialsProps> = ({ countsMap }) => {
   const socialsList = Object.entries(countsMap) as unknown as [
     ISocial,
     number,

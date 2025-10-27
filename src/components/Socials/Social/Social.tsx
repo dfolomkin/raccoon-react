@@ -11,7 +11,7 @@ interface SocialProps {
   count: number
 }
 
-export function Social({ variant, count }: SocialProps) {
+export const Social: React.FC<SocialProps> = ({ variant, count }) => {
   const IconComponent = getIconComponent(variant)
 
   return (
