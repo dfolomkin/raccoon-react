@@ -47,3 +47,5 @@ export interface ApiResponseWithState<T> extends ApiResponse<T> {
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export type EmptyObject = {}
+
+export type Theme = 'light' | 'dark'

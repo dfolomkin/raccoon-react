@@ -5,7 +5,13 @@ import { Aside } from 'pages'
 
 import { Header } from '../Header'
 
-import styles from './MainLayout.module.less'
+import {
+  AsideWrapper,
+  MainLayoutContainer,
+  PageContainer,
+  Section,
+  VersionInfo,
+} from './MainLayout.styled'
 
 export const MainLayout: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -42,8 +48,8 @@ export const MainLayout: React.FC = () => {
   }
 
   return (
-    <div className={styles.mainLayout}>
-      <div className={styles.versionInfo}>{__VERSION__}</div>
+    <MainLayoutContainer>
+      <VersionInfo>{__VERSION__}</VersionInfo>
       <Header
         isMenuOpen={isMenuOpen}
         isAboutOpen={isAboutOpen}
@@ -54,11 +60,11 @@ export const MainLayout: React.FC = () => {
         onInfoToggle={handleInfoToggle}
         onTagsToggle={handleTagsToggle}
       />
-      <div className={styles.container}>
-        <section className={styles.section}>
+      <PageContainer>
+        <Section>
           <Outlet />
-        </section>
-        <section className={styles.aside}>
+        </Section>
+        <AsideWrapper>
           <Aside
             isAboutOpen={isAboutOpen}
             isInfoOpen={isInfoOpen}
@@ -67,8 +73,8 @@ export const MainLayout: React.FC = () => {
             onInfoToggle={handleInfoToggle}
             onTagsToggle={handleTagsToggle}
           />
-        </section>
-      </div>
-    </div>
+        </AsideWrapper>
+      </PageContainer>
+    </MainLayoutContainer>
   )
 }

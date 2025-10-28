@@ -1,5 +1,6 @@
 {
   "extends": ["stylelint-config-standard-less"],
+  "customSyntax": "postcss-styled-syntax",
   "defaultSeverity": "warning",
   "rules": {
     "property-no-unknown": [true, { "severity": "error" }],

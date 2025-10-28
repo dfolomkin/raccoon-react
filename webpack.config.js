@@ -10,10 +10,12 @@ import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin'
 import ReactRefreshTypeScript from 'react-refresh-typescript'
 import EslintWebpackPlugin from 'eslint-webpack-plugin'
 import StylelintWebpackPlugin from 'stylelint-webpack-plugin'
+import { createTransformer } from 'typescript-plugin-styled-components'
 
 import packageJson from './package.json' with { type: 'json' }
 
 const __dirname = import.meta.dirname
+const styledComponentsTransformer = createTransformer()
 
 export default (env) => {
   const isDevMode = env.mode === 'development' || env.mode === undefined
@@ -117,9 +119,10 @@ export default (env) => {
               loader: 'ts-loader',
               options: {
                 getCustomTransformers: () => ({
-                  before: [isDevMode && ReactRefreshTypeScript()].filter(
-                    Boolean
-                  ),
+                  before: [
+                    isDevMode && ReactRefreshTypeScript(),
+                    isDevMode && styledComponentsTransformer,
+                  ].filter(Boolean),
                 }),
                 transpileOnly: isDevMode,
               },
