@@ -2,7 +2,7 @@ import { defineConfig } from 'eslint/config'
 import pluginJs from '@eslint/js'
 import pluginTs from 'typescript-eslint'
 import pluginReact from 'eslint-plugin-react'
-import configPrettier from 'eslint-config-prettier'
+import pluginReactHook from 'eslint-plugin-react-hooks'
 import pluginPrettierRecommended from 'eslint-plugin-prettier/recommended'
 import pluginImportSort from 'eslint-plugin-simple-import-sort'
 import globals from 'globals'
@@ -17,19 +17,28 @@ export default defineConfig([
     files: ['src/**/*.{js,ts,jsx,tsx}'],
   },
   pluginJs.configs.recommended,
-  pluginTs.configs.recommendedTypeChecked,
+  pluginTs.configs.recommended,
+  // NOTE: enabling type-aware linting causes non-refreshing cheking issue with eslint-webpack-plugin
+  // pluginTs.configs.recommendedTypeChecked,
+  // {
+  //   languageOptions: {
+  //     parserOptions: {
+  //       project: true,
+  //       tsconfigRootDir: import.meta.dirname,
+  //     },
+  //   },
+  // },
+  pluginReact.configs.flat.recommended,
+  pluginReactHook.configs.flat.recommended,
   {
-    languageOptions: {
-      parserOptions: {
-        project: true,
-        tsconfigRootDir: import.meta.dirname,
+    settings: {
+      react: {
+        version: 'detect',
       },
     },
   },
-  pluginReact.configs.flat.recommended,
-  // NOTE: turn off conflicting rules
-  configPrettier,
-  // NOTE: include prettier config to process by eslint
+  // NOTE: runs prettier as an eslint rule and reports differences as eslint errors
+  // includes eslint-config-prettier
   pluginPrettierRecommended,
   {
     languageOptions: {
@@ -39,17 +48,16 @@ export default defineConfig([
         __VERSION__: 'readonly',
       },
     },
-    settings: {
-      react: {
-        version: 'detect',
-      },
-    },
     plugins: {
       'simple-import-sort': pluginImportSort,
     },
     rules: {
-      // NOTE: it doesn't format on save (prettier does itself), its only for error highlighting
-      // but can format with "fix all auto-fixable"
+      // NOTE: this rule primary used for error highlighting (and not for format on save)
+      // Formating on save happens due to:
+      // 1) .prettierrc, vscode extension and setting "editor.formatOnSave": true
+      // .prettierrc is still needed for processing files out of eslint service (like eslint.config.js itself)
+      // 2) this rule, eslint-plugin-prettier/recommended (actualy fixing all rules) and settings "editor.codeActionsOnSave": { "source.fixAll.eslint": "explicit" }
+      // or with "fix all auto-fixable" context menu
       'prettier/prettier': [
         'warn',
         {
@@ -82,14 +90,11 @@ export default defineConfig([
         },
       ],
       'simple-import-sort/exports': 'warn',
-      'react/prop-types': 'off',
       'no-console': 'warn',
       'no-undef': 'warn',
       'no-unused-vars': 'off',
-      '@typescript-eslint/no-misused-promises': 'off',
-      '@typescript-eslint/no-unsafe-assignment': 'off',
       '@typescript-eslint/no-unused-vars': 'warn',
-      '@typescript-eslint/unbound-method': 'off',
+      'react/prop-types': 'off',
     },
   },
 ])

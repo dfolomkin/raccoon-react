@@ -2,7 +2,10 @@
   "typescript.tsdk": "node_modules\\typescript\\lib",
   "css.validate": false,
   "less.validate": false,
-  "stylelint.validate": ["css", "less"],
+  "stylelint.validate": [
+    "css",
+    "less"
+  ],
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit"
   },
