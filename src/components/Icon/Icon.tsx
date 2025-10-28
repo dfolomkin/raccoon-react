@@ -6,7 +6,7 @@ interface IconProps {
   className?: string
 }
 
-export const getIconComponent = (name: string) =>
+const getIconComponent = (name: string) =>
   function IconComponent({ className }: IconProps) {
     return (
       <svg viewBox="0 0 32 32" className={className}>
@@ -23,9 +23,9 @@ export const Icon = {
   Clock: getIconComponent('clock'),
   Footstep: getIconComponent('footstep'),
   Tag: getIconComponent('tag'),
+  Facebook: getIconComponent('facebook'),
   Gplus: getIconComponent('gplus'),
   Twitter: getIconComponent('twitter'),
-  Facebook: getIconComponent('facebook'),
   Vk: getIconComponent('vk'),
   Yandex: getIconComponent('yaru'),
 }

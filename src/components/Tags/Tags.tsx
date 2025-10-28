@@ -1,19 +1,25 @@
 import React from 'react'
+import styled from 'styled-components'
 
 import { ITag } from 'shared/types'
 
 import { Tag } from './Tag'
 
-import styles from './Tags.module.less'
+const TagsBlock = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  list-style: none;
+`
 
 interface TagsProps {
   tagsList: ITag[]
 }
 
 export const Tags: React.FC<TagsProps> = ({ tagsList }) => (
-  <div className={styles.tagsBlock}>
+  <TagsBlock>
     {tagsList.map((item) => (
       <Tag key={item.id} caption={item.name} />
     ))}
-  </div>
+  </TagsBlock>
 )

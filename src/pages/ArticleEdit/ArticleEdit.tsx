@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import clsx from 'clsx'
 import { useNavigate, useParams } from 'react-router-dom'
 
 import { FormButton } from 'components'
@@ -12,7 +11,16 @@ import {
   IArticle,
 } from 'shared/types'
 
-import styles from './ArticleEdit.module.less'
+import {
+  Form,
+  FormControl,
+  FormGroup,
+  FormInput,
+  FormTextarea,
+  FormTextareaCounter,
+  Label,
+  PreviewImg,
+} from './ArticleEdit.styled'
 
 const FORM_FIELDS = {
   author: 'author',
@@ -150,102 +158,73 @@ export const ArticleEdit: React.FC = () => {
     : `${UPLOADS_BASE_URL}/${articleData.imageFileName}`
 
   return (
-    <form
-      className={styles.sectionElem}
-      onSubmit={handleFormSubmit}
-      onChange={handleFormChange}
-    >
+    <Form onSubmit={handleFormSubmit} onChange={handleFormChange}>
       {articleData.imageFileName && (
-        <div className={styles.formGroup}>
-          <img
-            className={styles.formGroup__preview}
-            src={fileScr}
-            alt={articleData.imageFileName}
-          />
-        </div>
+        <FormGroup>
+          <PreviewImg alt={articleData.imageFileName} src={fileScr} />
+        </FormGroup>
       )}
-      <div className={styles.formGroup}>
-        <label
-          htmlFor={FORM_FIELDS.imageFile}
-          className={styles.formGroup__label}
-        >
-          Select image
-        </label>
-        <input
+      <FormGroup>
+        <Label htmlFor={FORM_FIELDS.imageFile}>Select image</Label>
+        <FormInput
           id={FORM_FIELDS.imageFile}
           name={FORM_FIELDS.imageFile}
-          className={styles.formGroup__input}
           type="file"
           accept="image/png, image/jpeg"
           defaultValue=""
         />
-      </div>
-      <div className={styles.formGroup}>
-        <label htmlFor={FORM_FIELDS.author} className={styles.formGroup__label}>
-          Author
-        </label>
-        <input
+      </FormGroup>
+      <FormGroup>
+        <Label htmlFor={FORM_FIELDS.author}>Author</Label>
+        <FormInput
           id={FORM_FIELDS.author}
           name={FORM_FIELDS.author}
-          className={styles.formGroup__input}
           type="text"
           defaultValue={articleData.author}
           required
         />
-      </div>
-      <div className={styles.formGroup}>
-        <label htmlFor={FORM_FIELDS.title} className={styles.formGroup__label}>
-          Title
-        </label>
-        <input
+      </FormGroup>
+      <FormGroup>
+        <Label htmlFor={FORM_FIELDS.title}>Title</Label>
+        <FormInput
           id={FORM_FIELDS.title}
           name={FORM_FIELDS.title}
-          className={styles.formGroup__input}
           type="text"
           defaultValue={articleData.title}
           required
         />
-      </div>
-      <div className={styles.formGroup}>
-        <label
-          htmlFor={FORM_FIELDS.content}
-          className={styles.formGroup__label}
-        >
-          Content
-        </label>
-        <textarea
+      </FormGroup>
+      <FormGroup>
+        <Label htmlFor={FORM_FIELDS.content}>Content</Label>
+        <FormTextarea
           id={FORM_FIELDS.content}
           name={FORM_FIELDS.content}
-          className={styles.formGroup__text}
           rows={4}
           maxLength={100}
           defaultValue={articleData.content}
           required
         />
-        <div className={styles.formGroup__textCounter}>
+        <FormTextareaCounter>
           {articleData.content.length} / 100
-        </div>
-      </div>
-      <div className={styles.formGroup}>
-        <label htmlFor={FORM_FIELDS.tags} className={styles.formGroup__label}>
-          Tags
-        </label>
-        <input
+        </FormTextareaCounter>
+      </FormGroup>
+      <FormGroup>
+        <Label htmlFor={FORM_FIELDS.tags}>Tags</Label>
+        <FormInput
           id={FORM_FIELDS.tags}
           name={FORM_FIELDS.tags}
-          className={styles.formGroup__input}
           type="text"
           defaultValue={articleData.tags.join(', ')}
         />
-      </div>
-      <div className={clsx(styles.formGroup, styles.formGroup__control)}>
+      </FormGroup>
+      <FormControl>
         <FormButton type="submit" disabled={!isChanged}>
           <i className="fa-solid fa-check"></i>&ensp;Save
         </FormButton>
         <FormButton type="button" onClick={handleCancelClick}>
           <i className="fa-solid fa-cancel"></i>&ensp;Cancel
         </FormButton>
-      </div>
-    </form>
+      </FormControl>
+    </Form>
   )
 }

@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 
 import { debounce } from 'shared/utils'
 
+import { FilterBarWrapper, FilterInput } from './FilterBar.styled'
+
 import styles from './FilterBar.module.less'
 
 interface FilterBarProps {
@@ -23,14 +25,13 @@ export const FilterBar: React.FC<FilterBarProps> = ({
   }
 
   return (
-    <div className={styles.filterBar}>
-      <input
-        className={styles.filterBar__input}
+    <FilterBarWrapper>
+      <FilterInput
         type="text"
         value={value}
-        onChange={(e) => handleInputChange(e.target.value)}
+        onChange={(event) => handleInputChange(event.target.value)}
       />
-      <i className={`${styles.filterBar__icon} fa-solid fa-filter`}></i>
-    </div>
+      <i className={`${styles.icon} fa-solid fa-filter`}></i>
+    </FilterBarWrapper>
   )
 }

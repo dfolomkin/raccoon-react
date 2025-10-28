@@ -1,14 +1,25 @@
 import React, { useState } from 'react'
-import clsx from 'clsx'
 import moment from 'moment'
 import { useNavigate } from 'react-router-dom'
 
-import { Button, Icon, Modal, Socials } from 'components'
+import { Modal, Socials } from 'components'
+import { Box } from 'components/flexbox'
 import { deleteArticle } from 'services'
 import { ROUTES, UPLOADS_BASE_URL } from 'shared/constants'
 import { IArticle } from 'shared/types'
 
-import styles from './Article.module.less'
+import {
+  ArticleContent,
+  ArticleControlPanel,
+  ArticleImage,
+  ArticleInfo,
+  ArticleTitle,
+  ClockIcon,
+  ControlPanelButton,
+  FoostepIcon,
+  InfoElement,
+  InfoGroup,
+} from './Artiicle.styled'
 
 interface ArticleProps {
   articleData: IArticle
@@ -41,48 +52,44 @@ export const Article: React.FC<ArticleProps> = ({ articleData }) => {
 
   return (
     <>
-      <article className={styles.article}>
-        <img
-          className={styles.article__image}
+      <Box position="relative">
+        <ArticleImage
           src={`${UPLOADS_BASE_URL}/${articleData.imageFileName}`}
           alt={articleData.imageFileName}
         />
 
-        <h1 className={styles.article__title}>{articleData.title}</h1>
+        <ArticleTitle>{articleData.title}</ArticleTitle>
 
-        <div className={clsx(styles.article__info, styles.infoPanel)}>
-          <div className={styles.infoPanel__group}>
-            <div className={styles.infoElem}>
-              <Icon.Clock className={styles.infoElem__icon} />
+        <ArticleInfo>
+          <InfoGroup>
+            <InfoElement>
+              <ClockIcon />
               <time>
                 {moment(articleData.date).format('HH:mm MMM DD, YYYY')}
               </time>
-            </div>
-            <div className={styles.infoElem}>
-              <Icon.Footstep className={styles.infoElem__icon} />
+            </InfoElement>
+            <InfoElement>
+              <FoostepIcon />
               <address>{articleData.author}</address>
-            </div>
-          </div>
+            </InfoElement>
+          </InfoGroup>
 
-          <div className={styles.infoPanel__group}>
+          <InfoGroup>
             <Socials countsMap={articleData.socials} />
-          </div>
-        </div>
+          </InfoGroup>
+        </ArticleInfo>
 
-        <div className={styles.article__content}>{articleData.content}</div>
+        <ArticleContent>{articleData.content}</ArticleContent>
 
-        <div className={styles.article__controlPanel}>
-          <Button className={styles.article__button} onClick={handleEditClick}>
+        <ArticleControlPanel>
+          <ControlPanelButton onClick={handleEditClick}>
             <i className="fa-solid fa-pencil"></i>
-          </Button>
-          <Button
-            className={styles.article__button}
-            onClick={handleDeleteClick}
-          >
+          </ControlPanelButton>
+          <ControlPanelButton onClick={handleDeleteClick}>
             <i className="fa-solid fa-trash"></i>
-          </Button>
-        </div>
-      </article>
+          </ControlPanelButton>
+        </ArticleControlPanel>
+      </Box>
       {isDeleteModalOpen && (
         <Modal
           onCancel={handleDeleteModalCancel}

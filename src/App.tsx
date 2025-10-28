@@ -1,13 +1,15 @@
 import React, { Suspense } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import { createGlobalStyle, ThemeProvider } from 'styled-components'
 
 import { PageLoader } from 'components'
 import { MainLayout } from 'pages'
 // NOTE: this causes error with @pmmmwh/react-refresh-webpack-plugin and react-refresh-typescript
 // Cannot read properties of undefined (reading 'MainLayout')
 // import { MainLayout } from 'pages/MainLayout'
-import { ROUTES } from 'shared/constants'
+import { ROUTES, THEME_SPEC } from 'shared/constants'
+import { useColorScheme } from 'shared/hooks'
 
 import styles from './App.module.less'
 
@@ -22,34 +24,50 @@ const Articles = React.lazy(() =>
   }))
 )
 
-export const App = () => (
-  <ErrorBoundary
-    fallback={
-      <div className={styles.message}>
-        <i className="fa-regular fa-face-frown"></i>&ensp;Something went wrong!
-      </div>
-    }
-  >
-    <Router>
-      <Suspense fallback={<PageLoader />}>
-        <Routes>
-          <Route element={<MainLayout />}>
-            <Route index element={<Articles />} />
-            <Route path={ROUTES.articles} element={<Articles />} />
-            <Route
-              path={`${ROUTES.articleEdit}/:id`}
-              element={<ArticleEdit />}
-            />
-            <Route path={ROUTES.articleNew} element={<ArticleEdit />} />
-          </Route>
-          <Route
-            path="*"
-            element={
-              <div className={styles.message}>{`Page doesn't exist`}</div>
-            }
-          />
-        </Routes>
-      </Suspense>
-    </Router>
-  </ErrorBoundary>
-)
+const GlobalStyle = createGlobalStyle`
+  /* NOTE: this is for using light-dark() fn in css-modules */
+  :root {
+    color-scheme: light dark;
+  }
+`
+
+export const App = () => {
+  const scheme = useColorScheme()
+  const curerntTheme = THEME_SPEC[scheme]
+
+  return (
+    <ErrorBoundary
+      fallback={
+        <div className={styles.message}>
+          <i className="fa-regular fa-face-frown"></i>&ensp;Something went
+          wrong!
+        </div>
+      }
+    >
+      <ThemeProvider theme={{ ...curerntTheme, mode: scheme }}>
+        <GlobalStyle />
+        <Router>
+          <Suspense fallback={<PageLoader />}>
+            <Routes>
+              <Route element={<MainLayout />}>
+                <Route index element={<Articles />} />
+                <Route path={ROUTES.articles} element={<Articles />} />
+                <Route
+                  path={`${ROUTES.articleEdit}/:id`}
+                  element={<ArticleEdit />}
+                />
+                <Route path={ROUTES.articleNew} element={<ArticleEdit />} />
+              </Route>
+              <Route
+                path="*"
+                element={
+                  <div className={styles.message}>{`Page doesn't exist`}</div>
+                }
+              />
+            </Routes>
+          </Suspense>
+        </Router>
+      </ThemeProvider>
+    </ErrorBoundary>
+  )
+}

@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import clsx from 'clsx'
 import { useLocation, useNavigate } from 'react-router-dom'
 
-import { FormButton, PageLoader } from 'components'
+import { PageLoader } from 'components'
 import { getArticles } from 'services'
 import { ROUTES } from 'shared/constants'
 import { ApiResponse, IArticle } from 'shared/types'
 import { getUrlQueryParamValue, objectIncludes } from 'shared/utils'
 
 import { Article } from './Article'
+import { AddButton, ArticleWrapper, ControlPanel } from './Article.styled'
 import { FilterBar } from './FilterBar'
-
-import styles from './Articles.module.less'
 
 export const Articles: React.FC = () => {
   const location = useLocation()
@@ -58,23 +56,20 @@ export const Articles: React.FC = () => {
 
   return (
     <>
-      <div className={clsx(styles.sectionElem, styles.controlPanel)}>
+      <ControlPanel>
         <FilterBar initValue={filter} onChange={handleFilterChange} />
-        <FormButton
-          className={styles.addButton}
-          onClick={handleAddArticleClick}
-        >
+        <AddButton onClick={handleAddArticleClick}>
           <i className="fa-solid fa-plus"></i>&emsp; Add article
-        </FormButton>
-      </div>
+        </AddButton>
+      </ControlPanel>
 
       {isLoading && <PageLoader />}
       {error && <div>{error.message}</div>}
       {data &&
         filteredData.map((item) => (
-          <div key={item.id} className={styles.sectionElem}>
+          <ArticleWrapper key={item.id}>
             <Article articleData={item} />
-          </div>
+          </ArticleWrapper>
         ))}
     </>
   )
