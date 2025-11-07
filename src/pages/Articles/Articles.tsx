@@ -8,7 +8,7 @@ import { ApiResponse, IArticle } from 'shared/types'
 import { getUrlQueryParamValue, objectIncludes } from 'shared/utils'
 
 import { Article } from './Article'
-import { AddButton, ArticleWrapper, ControlPanel } from './Article.styled'
+import { AddButton, ArticleWrapper, ControlPanel } from './Articles.styled'
 import { FilterBar } from './FilterBar'
 
 export const Articles: React.FC = () => {
@@ -30,17 +30,16 @@ export const Articles: React.FC = () => {
       setArticles(response)
     }
 
-    void fetchArticles()
+    fetchArticles()
   }, [])
 
-  const handleAddArticleClick = async () => {
-    await navigate(ROUTES.articleNew)
+  const handleAddArticleClick = () => {
+    navigate(ROUTES.articleNew)
   }
 
-  const handleFilterChange = async (value: string) => {
+  const handleFilterChange = (value: string) => {
     setFilter(value)
-
-    await navigate(`${ROUTES.articles}${value ? `?filter=${value}` : ''}`)
+    navigate(`${ROUTES.articles}${value ? `?filter=${value}` : ''}`)
   }
 
   const { data, error } = articles

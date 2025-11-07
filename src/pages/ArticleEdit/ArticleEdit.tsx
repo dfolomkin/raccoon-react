@@ -58,6 +58,7 @@ export const ArticleEdit: React.FC = () => {
   const { id } = useParams()
 
   useEffect(() => {
+    if (id !== undefined) {
     const fetchArticle = async () => {
       const response = await getArticle(id)
 
@@ -65,8 +66,7 @@ export const ArticleEdit: React.FC = () => {
       setArticleError(response.error)
     }
 
-    if (id !== undefined) {
-      void fetchArticle()
+      fetchArticle()
     }
   }, [id])
 
@@ -141,12 +141,12 @@ export const ArticleEdit: React.FC = () => {
     }
 
     if (!response.error) {
-      await navigate(ROUTES.articles)
+      navigate(ROUTES.articles)
     }
   }
 
-  const handleCancelClick = async () => {
-    await navigate(ROUTES.articles)
+  const handleCancelClick = () => {
+    navigate(ROUTES.articles)
   }
 
   if (articleError) {

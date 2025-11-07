@@ -49,6 +49,7 @@ const TagWrapper = styled.div`
     }
   }
 `
+
 interface TagProps {
   caption: string
 }
