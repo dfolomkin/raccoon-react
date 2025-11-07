@@ -8,7 +8,7 @@ import { ApiResponse, IArticle } from 'shared/types'
 import { getUrlQueryParamValue, objectIncludes } from 'shared/utils'
 
 import { Article } from './Article'
-import { AddButton, ArticleWrapper, ControlPanel } from './Article.styled'
+import { AddButton, ArticleWrapper, ControlPanel } from './Articles.styled'
 import { FilterBar } from './FilterBar'
 
 export const Articles: React.FC = () => {

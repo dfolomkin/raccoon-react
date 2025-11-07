@@ -54,6 +54,7 @@ export const getUrlQueryParamValue = (
   const params = queryString.split('&').reduce(
     (acc, item) => {
       const [key, value] = item.split('=')
+
       return { ...acc, [key]: value }
     },
     {} as Record<string, string>

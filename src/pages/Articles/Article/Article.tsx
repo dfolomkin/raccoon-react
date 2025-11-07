@@ -19,7 +19,7 @@ import {
   FoostepIcon,
   InfoElement,
   InfoGroup,
-} from './Artiicle.styled'
+} from './Article.styled'
 
 interface ArticleProps {
   articleData: IArticle
@@ -30,8 +30,10 @@ export const Article: React.FC<ArticleProps> = ({ articleData }) => {
 
   const navigate = useNavigate()
 
+  const { id } = articleData
+
   const handleEditClick = async () => {
-    await navigate(`${ROUTES.articleEdit}/${articleData.id}`)
+    await navigate(`${ROUTES.articleEdit}/${id}`)
   }
 
   const handleDeleteClick = () => {
@@ -39,8 +41,6 @@ export const Article: React.FC<ArticleProps> = ({ articleData }) => {
   }
 
   const handleDeleteModalAccept = async () => {
-    const { id } = articleData
-
     await deleteArticle(id)
     setIsDeleteModalOpen(false)
     await navigate(0)
@@ -56,19 +56,22 @@ export const Article: React.FC<ArticleProps> = ({ articleData }) => {
         <ArticleImage
           src={`${UPLOADS_BASE_URL}/${articleData.imageFileName}`}
           alt={articleData.imageFileName}
+          data-testid={`article-img-image:${id}`}
         />
 
-        <ArticleTitle>{articleData.title}</ArticleTitle>
+        <ArticleTitle data-testid={`article-header-title:${id}`}>
+          {articleData.title}
+        </ArticleTitle>
 
-        <ArticleInfo>
+        <ArticleInfo data-testid={`article-block-info:${id}`}>
           <InfoGroup>
-            <InfoElement>
+            <InfoElement data-testid={`article-block-time:${id}`}>
               <ClockIcon />
               <time>
                 {moment(articleData.date).format('HH:mm MMM DD, YYYY')}
               </time>
             </InfoElement>
-            <InfoElement>
+            <InfoElement data-testid={`article-block-author:${id}`}>
               <FoostepIcon />
               <address>{articleData.author}</address>
             </InfoElement>
@@ -79,13 +82,21 @@ export const Article: React.FC<ArticleProps> = ({ articleData }) => {
           </InfoGroup>
         </ArticleInfo>
 
-        <ArticleContent>{articleData.content}</ArticleContent>
+        <ArticleContent data-testid={`article-block-content:${id}`}>
+          {articleData.content}
+        </ArticleContent>
 
-        <ArticleControlPanel>
-          <ControlPanelButton onClick={handleEditClick}>
+        <ArticleControlPanel data-testid={`article-block-controls:${id}`}>
+          <ControlPanelButton
+            onClick={handleEditClick}
+            data-testid={`article-button-edit:${id}`}
+          >
             <i className="fa-solid fa-pencil"></i>
           </ControlPanelButton>
-          <ControlPanelButton onClick={handleDeleteClick}>
+          <ControlPanelButton
+            onClick={handleDeleteClick}
+            data-testid={`article-button-delete:${id}`}
+          >
             <i className="fa-solid fa-trash"></i>
           </ControlPanelButton>
         </ArticleControlPanel>

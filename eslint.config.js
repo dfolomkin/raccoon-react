@@ -93,6 +93,12 @@ export default defineConfig([
       'no-console': 'warn',
       'no-undef': 'warn',
       'no-unused-vars': 'off',
+      'padding-line-between-statements': [
+        'warn',
+        { blankLine: 'always', prev: '*', next: ['const', 'let'] },
+        { blankLine: 'always', prev: ['const', 'let'], next: '*' },
+        { blankLine: 'any', prev: ['const', 'let'], next: ['const', 'let'] },
+      ],
       '@typescript-eslint/no-unused-vars': 'warn',
       'react/prop-types': 'off',
     },

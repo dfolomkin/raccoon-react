@@ -58,6 +58,7 @@ export const ArticleEdit: React.FC = () => {
   const { id } = useParams()
 
   useEffect(() => {
+    if (id !== undefined) {
     const fetchArticle = async () => {
       const response = await getArticle(id)
 
@@ -65,7 +66,6 @@ export const ArticleEdit: React.FC = () => {
       setArticleError(response.error)
     }
 
-    if (id !== undefined) {
       void fetchArticle()
     }
   }, [id])
