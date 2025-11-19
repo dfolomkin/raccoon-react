@@ -49,7 +49,9 @@ export const MainLayout: React.FC = () => {
 
   return (
     <MainLayoutContainer>
-      <VersionInfo>{__VERSION__}</VersionInfo>
+      <VersionInfo data-testid="mainlayout-component-version">
+        {__VERSION__}
+      </VersionInfo>
       <Header
         isMenuOpen={isMenuOpen}
         isAboutOpen={isAboutOpen}
@@ -60,7 +62,7 @@ export const MainLayout: React.FC = () => {
         onInfoToggle={handleInfoToggle}
         onTagsToggle={handleTagsToggle}
       />
-      <PageContainer>
+      <PageContainer data-testid="mainlayout-component-pagecontainer">
         <Section>
           <Outlet />
         </Section>

@@ -131,7 +131,8 @@ const StyledButtonInner = styled.div.withConfig({
   }
 `
 
-interface NavButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface NavButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   isSwitchedOn: boolean
   isMenu?: boolean
 }
@@ -142,8 +143,17 @@ export const NavButton: React.FC<NavButtonProps> = ({
   isMenu,
   ...props
 }) => (
-  <StyledButton isActive={isSwitchedOn} isMenu={isMenu} {...props}>
-    <StyledButtonInner isActive={isSwitchedOn} isMenu={isMenu}>
+  <StyledButton
+    isActive={isSwitchedOn}
+    isMenu={isMenu}
+    {...props}
+    data-testid="navbutton-button-wrapper"
+  >
+    <StyledButtonInner
+      isActive={isSwitchedOn}
+      isMenu={isMenu}
+      data-testid="navbutton-block-inner"
+    >
       {children}
     </StyledButtonInner>
   </StyledButton>

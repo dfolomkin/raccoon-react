@@ -9,7 +9,11 @@ interface IconProps {
 const getIconComponent = (name: string) =>
   function IconComponent({ className }: IconProps) {
     return (
-      <svg viewBox="0 0 32 32" className={className}>
+      <svg
+        viewBox="0 0 32 32"
+        className={className}
+        data-testid={`icon-svg-${name}`}
+      >
         <use href={`${sprite}#icon-${name}`} />
       </svg>
     )

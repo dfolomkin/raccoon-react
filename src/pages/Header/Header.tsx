@@ -16,7 +16,7 @@ import {
 } from './Header.styled'
 import { NavButton } from './NavButton'
 
-const menu = [
+export const menu = [
   { caption: 'javascript', path: '/javascript' },
   { caption: 'css', path: '/css' },
   { caption: 'latest', path: ROUTES.articles },
@@ -46,24 +46,29 @@ export const Header: React.FC<HeaderProps> = ({
   onTagsToggle,
 }) => (
   <HeaderContainer>
-    <Logo>
+    <Logo data-testid="header-block-logo">
       <span>racco</span>
       <RaccoonIcon />
       <span>nblog</span>
     </Logo>
 
-    <NavBar>
-      <NavBarControl>
+    <NavBar data-testid="header-block-navbar">
+      <NavBarControl data-testid="header-block-navbarcontrol">
         <NavButton isSwitchedOn={isAboutOpen} onClick={() => onAboutToggle()}>
           ?
         </NavButton>
 
-        <Menu isOpen={isMenuOpen}>
+        <Menu isOpen={isMenuOpen} data-testid="header-block-menu">
           {menu.map((item) => (
-            <MenuItem key={item.caption} isActive={item.caption === 'latest'}>
+            <MenuItem
+              key={item.caption}
+              isActive={item.caption === 'latest'}
+              data-testid={`header-block-menuitem:${item.caption}`}
+            >
               <StyledNavLink
                 to={item.path}
                 isActive={item.caption === 'latest'}
+                data-testid={`header-block-menulink:${item.caption}`}
               >
                 {item.caption}
               </StyledNavLink>
