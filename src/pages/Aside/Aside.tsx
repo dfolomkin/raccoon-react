@@ -50,14 +50,23 @@ export const Aside: React.FC<AsideProps> = ({
 
   return (
     <>
-      <Note variant="about" isOpen={isAboutOpen}>
+      <Note
+        variant="about"
+        isOpen={isAboutOpen}
+        data-testid="aside-block-note:about"
+      >
         <NoteHeader variant="about">
-          <NoteTitle variant="about">About</NoteTitle>
-          <NoteIconButton onClick={() => onAboutToggle()}>
+          <NoteTitle variant="about" data-testid="aside-block-notetitle:about">
+            About
+          </NoteTitle>
+          <NoteIconButton
+            onClick={() => onAboutToggle()}
+            data-testid="aside-block-button:about"
+          >
             <ArrowIcon />
           </NoteIconButton>
         </NoteHeader>
-        <NoteBody variant="about">
+        <NoteBody variant="about" data-testid="aside-block-notebody:about">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent id
           tempor libero. Etiam condimentum maximus neque ut interdum. Donec
           bibendum commodo lectus at fermentum. Integer lectus justo, dignissim
@@ -69,14 +78,23 @@ export const Aside: React.FC<AsideProps> = ({
         </NoteBody>
       </Note>
 
-      <Note variant="info" isOpen={isInfoOpen}>
+      <Note
+        variant="info"
+        isOpen={isInfoOpen}
+        data-testid="aside-block-note:info"
+      >
         <NoteHeader variant="info">
-          <NoteTitle variant="info">Some information</NoteTitle>
-          <NoteIconButton onClick={() => onInfoToggle()}>
+          <NoteTitle variant="info" data-testid="aside-block-notetitle:info">
+            Some information
+          </NoteTitle>
+          <NoteIconButton
+            onClick={() => onInfoToggle()}
+            data-testid="aside-block-button:info"
+          >
             <ArrowIcon />
           </NoteIconButton>
         </NoteHeader>
-        <NoteBody variant="info">
+        <NoteBody variant="info" data-testid="aside-block-notebody:info">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent id
           tempor libero. Etiam condimentum maximus neque ut interdum. Donec
           bibendum commodo lectus at fermentum. Integer lectus justo, dignissim
@@ -88,14 +106,23 @@ export const Aside: React.FC<AsideProps> = ({
         </NoteBody>
       </Note>
 
-      <Note variant="tags" isOpen={isTagsOpen}>
+      <Note
+        variant="tags"
+        isOpen={isTagsOpen}
+        data-testid="aside-block-note:tags"
+      >
         <NoteHeader variant="tags">
-          <NoteTitle variant="tags">Tags</NoteTitle>
-          <NoteIconButton onClick={() => onTagsToggle()}>
+          <NoteTitle variant="tags" data-testid="aside-block-notetitle:tags">
+            Tags
+          </NoteTitle>
+          <NoteIconButton
+            onClick={() => onTagsToggle()}
+            data-testid="aside-block-button:tags"
+          >
             <ArrowIcon />
           </NoteIconButton>
         </NoteHeader>
-        <NoteBody variant="tags">
+        <NoteBody variant="tags" data-testid="aside-block-notebody:tags">
           {isLoading && <Loader />}
           {error && <div>{error.message}</div>}
           {data && <Tags tagsList={data} />}

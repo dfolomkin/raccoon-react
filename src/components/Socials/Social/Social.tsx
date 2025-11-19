@@ -105,8 +105,14 @@ export const Social: React.FC<SocialProps> = ({ variant, count }) => {
   const Icon = SocialIcons[variant]
 
   return (
-    <SocialBadge variant={variant}>
-      <SocialLink variant={variant}>
+    <SocialBadge
+      variant={variant}
+      data-testid={`social-block-badge:${variant}`}
+    >
+      <SocialLink
+        variant={variant}
+        data-testid={`social-block-link:${variant}`}
+      >
         <Icon />
         {count}
       </SocialLink>

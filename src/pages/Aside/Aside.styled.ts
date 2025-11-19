@@ -9,11 +9,13 @@ export const Note = styled.div.withConfig({
   isOpen: boolean
 }>`
   @media (min-width: 1024px) {
-    /* display: flex;
-    flex-direction: column; */
+    opacity: 1;
+    display: flex;
+    flex-direction: column;
     margin-bottom: 3rem;
   }
   @media (min-width: 480px) and (max-width: 1023px) {
+    opacity: 1;
     ${({ variant, isOpen, theme }) => {
       if (variant === 'about' || variant === 'info') {
         return `

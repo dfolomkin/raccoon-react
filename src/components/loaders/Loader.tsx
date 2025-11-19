@@ -48,4 +48,6 @@ export const LoaderBase = styled.div<{ size?: 'small' | 'medium' }>`
   }
 `
 
-export const Loader: React.FC = () => <LoaderBase size="small" />
+export const Loader: React.FC = () => (
+  <LoaderBase size="small" data-testid="loader-block-main" />
+)

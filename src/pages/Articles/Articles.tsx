@@ -56,15 +56,18 @@ export const Articles: React.FC = () => {
 
   return (
     <>
-      <ControlPanel>
+      <ControlPanel data-testid="articles-block-controls">
         <FilterBar initValue={filter} onChange={handleFilterChange} />
-        <AddButton onClick={handleAddArticleClick}>
+        <AddButton
+          onClick={handleAddArticleClick}
+          data-testid="articles-button-addarticle"
+        >
           <i className="fa-solid fa-plus"></i>&emsp; Add article
         </AddButton>
       </ControlPanel>
 
       {isLoading && <PageLoader />}
-      {error && <div>{error.message}</div>}
+      {error && <div data-testid="articles-block-error">{error.message}</div>}
       {data &&
         filteredData.map((item) => (
           <ArticleWrapper key={item.id}>

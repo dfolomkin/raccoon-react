@@ -21,7 +21,7 @@ import {
   InfoGroup,
 } from './Article.styled'
 
-interface ArticleProps {
+export interface ArticleProps {
   articleData: IArticle
 }
 

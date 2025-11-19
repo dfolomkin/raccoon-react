@@ -59,12 +59,12 @@ export const ArticleEdit: React.FC = () => {
 
   useEffect(() => {
     if (id !== undefined) {
-    const fetchArticle = async () => {
-      const response = await getArticle(id)
+      const fetchArticle = async () => {
+        const response = await getArticle(id)
 
-      setArticleData(response.data)
-      setArticleError(response.error)
-    }
+        setArticleData(response.data)
+        setArticleError(response.error)
+      }
 
       void fetchArticle()
     }
@@ -158,10 +158,18 @@ export const ArticleEdit: React.FC = () => {
     : `${UPLOADS_BASE_URL}/${articleData.imageFileName}`
 
   return (
-    <Form onSubmit={handleFormSubmit} onChange={handleFormChange}>
+    <Form
+      onSubmit={handleFormSubmit}
+      onChange={handleFormChange}
+      data-testid="articleedit-form-main"
+    >
       {articleData.imageFileName && (
         <FormGroup>
-          <PreviewImg alt={articleData.imageFileName} src={fileScr} />
+          <PreviewImg
+            alt={articleData.imageFileName}
+            src={fileScr}
+            data-testid="articleedit-img-image"
+          />
         </FormGroup>
       )}
       <FormGroup>
@@ -172,6 +180,7 @@ export const ArticleEdit: React.FC = () => {
           type="file"
           accept="image/png, image/jpeg"
           defaultValue=""
+          data-testid="articleedit-input-file"
         />
       </FormGroup>
       <FormGroup>
@@ -182,6 +191,7 @@ export const ArticleEdit: React.FC = () => {
           type="text"
           defaultValue={articleData.author}
           required
+          data-testid="articleedit-input-author"
         />
       </FormGroup>
       <FormGroup>
@@ -192,6 +202,7 @@ export const ArticleEdit: React.FC = () => {
           type="text"
           defaultValue={articleData.title}
           required
+          data-testid="articleedit-input-title"
         />
       </FormGroup>
       <FormGroup>
@@ -203,8 +214,9 @@ export const ArticleEdit: React.FC = () => {
           maxLength={100}
           defaultValue={articleData.content}
           required
+          data-testid="articleedit-textarea-content"
         />
-        <FormTextareaCounter>
+        <FormTextareaCounter data-testid="articleedit-block-contentlength">
           {articleData.content.length} / 100
         </FormTextareaCounter>
       </FormGroup>
@@ -215,13 +227,22 @@ export const ArticleEdit: React.FC = () => {
           name={FORM_FIELDS.tags}
           type="text"
           defaultValue={articleData.tags.join(', ')}
+          data-testid="articleedit-input-tags"
         />
       </FormGroup>
       <FormControl>
-        <FormButton type="submit" disabled={!isChanged}>
+        <FormButton
+          type="submit"
+          disabled={!isChanged}
+          data-testid="articleedit-button-save"
+        >
           <i className="fa-solid fa-check"></i>&ensp;Save
         </FormButton>
-        <FormButton type="button" onClick={handleCancelClick}>
+        <FormButton
+          type="button"
+          onClick={handleCancelClick}
+          data-testid="articleedit-button-cancel"
+        >
           <i className="fa-solid fa-cancel"></i>&ensp;Cancel
         </FormButton>
       </FormControl>

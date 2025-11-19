@@ -26,7 +26,7 @@ const SocialBlock = styled.div`
   }
 `
 
-interface SocialsProps {
+export interface SocialsProps {
   countsMap: Record<ISocial, number>
 }
 

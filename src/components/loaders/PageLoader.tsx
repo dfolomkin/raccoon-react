@@ -11,7 +11,7 @@ const PageLoaderWrapper = styled.div`
 `
 
 export const PageLoader: React.FC = () => (
-  <PageLoaderWrapper>
-    <LoaderBase size="medium" />
+  <PageLoaderWrapper data-testid="loader-block-wrapper">
+    <LoaderBase size="medium" data-testid="loader-block-main" />
   </PageLoaderWrapper>
 )

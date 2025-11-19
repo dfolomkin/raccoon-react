@@ -35,7 +35,7 @@ const Container = styled.div`
   }
 `
 
-interface ModalProps extends React.PropsWithChildren {
+export interface ModalProps extends React.PropsWithChildren {
   onCancel: () => void
   onAccept?: () => void
 }
@@ -47,20 +47,24 @@ export const Modal: React.FC<ModalProps> = ({
 }) => (
   <BackgroundFade>
     <Container>
-      <Box mb="1rem" width="100%">
+      <Box mb="1rem" width="100%" data-testid="modal-block-content">
         {children}
       </Box>
-      <Flex justifyContent="flex-end">
+      <Flex justifyContent="flex-end" data-testid="modal-block-controls">
         <FormButton
           onClick={() => {
             if (onAccept) {
               onAccept()
             }
           }}
+          data-testid="modal-button-accept"
         >
           <i className="fa-solid fa-check"></i>&ensp;Accept
         </FormButton>
-        <FormButton onClick={() => onCancel()}>
+        <FormButton
+          onClick={() => onCancel()}
+          data-testid="modal-button-cancel"
+        >
           <i className="fa-solid fa-times"></i>&ensp;Cancel
         </FormButton>
       </Flex>
