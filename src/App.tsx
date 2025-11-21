@@ -1,5 +1,6 @@
 import React, { Suspense } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
+import { Provider } from 'react-redux'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import { createGlobalStyle, ThemeProvider } from 'styled-components'
 
@@ -10,6 +11,7 @@ import { MainLayout } from 'pages'
 // import { MainLayout } from 'pages/MainLayout'
 import { ROUTES, THEME_SPEC } from 'shared/constants'
 import { useColorScheme } from 'shared/hooks'
+import { store } from 'store'
 
 import styles from './App.module.less'
 
@@ -44,30 +46,32 @@ export const App = () => {
         </div>
       }
     >
-      <ThemeProvider theme={{ ...curerntTheme, mode: scheme }}>
-        <GlobalStyle />
-        <Router>
-          <Suspense fallback={<PageLoader />}>
-            <Routes>
-              <Route element={<MainLayout />}>
-                <Route index element={<Articles />} />
-                <Route path={ROUTES.articles} element={<Articles />} />
+      <Provider store={store}>
+        <ThemeProvider theme={{ ...curerntTheme, mode: scheme }}>
+          <GlobalStyle />
+          <Router>
+            <Suspense fallback={<PageLoader />}>
+              <Routes>
+                <Route element={<MainLayout />}>
+                  <Route index element={<Articles />} />
+                  <Route path={ROUTES.articles} element={<Articles />} />
+                  <Route
+                    path={`${ROUTES.articleEdit}/:id`}
+                    element={<ArticleEdit />}
+                  />
+                  <Route path={ROUTES.articleNew} element={<ArticleEdit />} />
+                </Route>
                 <Route
-                  path={`${ROUTES.articleEdit}/:id`}
-                  element={<ArticleEdit />}
+                  path="*"
+                  element={
+                    <div className={styles.message}>{`Page doesn't exist`}</div>
+                  }
                 />
-                <Route path={ROUTES.articleNew} element={<ArticleEdit />} />
-              </Route>
-              <Route
-                path="*"
-                element={
-                  <div className={styles.message}>{`Page doesn't exist`}</div>
-                }
-              />
-            </Routes>
-          </Suspense>
-        </Router>
-      </ThemeProvider>
+              </Routes>
+            </Suspense>
+          </Router>
+        </ThemeProvider>
+      </Provider>
     </ErrorBoundary>
   )
 }
