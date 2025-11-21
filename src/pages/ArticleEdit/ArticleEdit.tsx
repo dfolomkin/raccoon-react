@@ -2,14 +2,20 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
 import { FormButton } from 'components'
-import { getArticle, postArticle, putArticle } from 'services'
-import { ROUTES, UPLOADS_BASE_URL } from 'shared/constants'
 import {
-  ApiResponse,
-  ApiResponseError,
-  ArticleForm,
-  IArticle,
-} from 'shared/types'
+  FETCH_STATUS,
+  FETCH_TYPE,
+  ROUTES,
+  UPLOADS_BASE_URL,
+} from 'shared/constants'
+import { ArticleForm } from 'shared/types'
+import { useAppDispatch, useAppSelector } from 'store'
+import {
+  createArticle,
+  fetchArticle,
+  resetArticleSlice,
+  updateArticle,
+} from 'store/slices/articleSlice'
 
 import {
   Form,
@@ -41,8 +47,14 @@ interface FormFields {
 }
 
 export const ArticleEdit: React.FC = () => {
-  const navigate = useNavigate()
+  const dispatch = useAppDispatch()
 
+  const navigate = useNavigate()
+  const { id } = useParams()
+
+  const { fetchType, status, data, error } = useAppSelector(
+    (state) => state.article
+  )
   const [articleData, setArticleData] = useState<ArticleForm | null>({
     author: '',
     title: '',
@@ -50,25 +62,38 @@ export const ArticleEdit: React.FC = () => {
     tags: [],
     imageFileName: '',
   })
-  const [articleError, setArticleError] = useState<ApiResponseError | null>(
-    null
-  )
   const [isChanged, setIsChanged] = useState(false)
 
-  const { id } = useParams()
+  useEffect(() => {
+    if (id) {
+      dispatch(fetchArticle(id))
+    }
+  }, [dispatch, id])
 
   useEffect(() => {
-    if (id !== undefined) {
-      const fetchArticle = async () => {
-        const response = await getArticle(id)
+    if (data) {
+      const { author, title, content, tags, imageFileName } = data
 
-        setArticleData(response.data)
-        setArticleError(response.error)
-      }
-
-      void fetchArticle()
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setArticleData({
+        author,
+        title,
+        content,
+        tags,
+        imageFileName,
+      })
     }
-  }, [id])
+  }, [data, status])
+
+  useEffect(() => {
+    if (
+      (fetchType === FETCH_TYPE.create || fetchType === FETCH_TYPE.update) &&
+      status === FETCH_STATUS.succeeded
+    ) {
+      navigate(ROUTES.articles)
+      dispatch(resetArticleSlice())
+    }
+  }, [dispatch, fetchType, navigate, status])
 
   const handleFormChange = (event: React.ChangeEvent<HTMLFormElement>) => {
     if (event.target.id === FORM_FIELDS.imageFile) {
@@ -132,16 +157,10 @@ export const ArticleEdit: React.FC = () => {
       formData.set('imageFile', imageFile.blob, imageFileName)
     }
 
-    let response: ApiResponse<IArticle>
-
-    if (id !== undefined) {
-      response = await putArticle(Number(id), formData)
+    if (id) {
+      dispatch(updateArticle({ id, formData }))
     } else {
-      response = await postArticle(formData)
-    }
-
-    if (!response.error) {
-      await navigate(ROUTES.articles)
+      dispatch(createArticle(formData))
     }
   }
 
@@ -149,8 +168,8 @@ export const ArticleEdit: React.FC = () => {
     await navigate(ROUTES.articles)
   }
 
-  if (articleError) {
-    return <div>{articleError.message}</div>
+  if (error) {
+    return <div>{error.message}</div>
   }
 
   const fileScr = articleData.imageFile

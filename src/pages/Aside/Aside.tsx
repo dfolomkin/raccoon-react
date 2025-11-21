@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 
 import { Loader, Tags } from 'components'
-import { getTags } from 'services'
-import { ApiResponse, ITag } from 'shared/types'
+import { FETCH_STATUS } from 'shared/constants'
+import { useAppDispatch, useAppSelector } from 'store'
+import { fetchTags } from 'store/slices/tagsSlice'
 
 import {
   ArrowIcon,
@@ -30,23 +31,13 @@ export const Aside: React.FC<AsideProps> = ({
   onInfoToggle,
   onTagsToggle,
 }) => {
-  const [tags, setTags] = useState<ApiResponse<ITag[]>>({
-    data: null,
-    error: null,
-  })
+  const dispatch = useAppDispatch()
+
+  const { status, data, error } = useAppSelector((state) => state.tags)
 
   useEffect(() => {
-    const fetchTags = async () => {
-      const response = await getTags()
-
-      setTags(response)
-    }
-
-    void fetchTags()
-  }, [])
-
-  const { data, error } = tags
-  const isLoading = !data && !error
+    dispatch(fetchTags())
+  }, [dispatch])
 
   return (
     <>
@@ -123,7 +114,7 @@ export const Aside: React.FC<AsideProps> = ({
           </NoteIconButton>
         </NoteHeader>
         <NoteBody variant="tags" data-testid="aside-block-notebody:tags">
-          {isLoading && <Loader />}
+          {status === FETCH_STATUS.loading && <Loader />}
           {error && <div>{error.message}</div>}
           {data && <Tags tagsList={data} />}
         </NoteBody>

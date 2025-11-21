@@ -74,3 +74,27 @@ export const SOCIALS_COLOR_MAP: Record<ISocial, string> = {
   vk: '#45668e',
   yaru: '#cb2027',
 }
+
+const FETCH_STATUS_BASE = {
+  uninitialized: 'uninitialized',
+  loading: 'loading',
+  succeeded: 'succeeded',
+  failed: 'failed',
+}
+
+export const FETCH_STATUS = FETCH_STATUS_BASE as Record<
+  keyof typeof FETCH_STATUS_BASE,
+  keyof typeof FETCH_STATUS_BASE
+>
+
+const FETCH_TYPE_BASE = {
+  create: 'create',
+  read: 'read',
+  update: 'update',
+  delete: 'delete',
+}
+
+export const FETCH_TYPE = FETCH_TYPE_BASE as Record<
+  keyof typeof FETCH_TYPE_BASE,
+  keyof typeof FETCH_TYPE_BASE
+>

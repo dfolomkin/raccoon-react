@@ -4,9 +4,10 @@ import { useNavigate } from 'react-router-dom'
 
 import { Modal, Socials } from 'components'
 import { Box } from 'components/flexbox'
-import { deleteArticle } from 'services'
 import { ROUTES, UPLOADS_BASE_URL } from 'shared/constants'
 import { IArticle } from 'shared/types'
+import { useAppDispatch } from 'store'
+import { deleteArticle } from 'store/slices/articleSlice'
 
 import {
   ArticleContent,
@@ -26,6 +27,8 @@ export interface ArticleProps {
 }
 
 export const Article: React.FC<ArticleProps> = ({ articleData }) => {
+  const dispatch = useAppDispatch()
+
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
 
   const navigate = useNavigate()
@@ -41,7 +44,7 @@ export const Article: React.FC<ArticleProps> = ({ articleData }) => {
   }
 
   const handleDeleteModalAccept = async () => {
-    await deleteArticle(id)
+    dispatch(deleteArticle(String(id)))
     setIsDeleteModalOpen(false)
     await navigate(0)
   }
