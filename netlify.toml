@@ -1,0 +1,24 @@
+[build]
+  command = "npm run build:netlify"
+  publish = "dist"
+  functions = "netlify/functions"
+
+[dev]
+  command = "npm run start"
+  port = 3000
+  targetPort = 3000
+
+[functions]
+  node_bundler = "esbuild"
+  included_files = ["netlify/functions/uploads/**", "netlify/functions/db.json"]
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/server/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

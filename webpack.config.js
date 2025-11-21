@@ -89,6 +89,7 @@ export default (env) => {
       }),
       new webpack.DefinePlugin({
         __VERSION__: JSON.stringify(packageJson.version),
+        'process.env.IS_NETLIFY': JSON.stringify(env.isNetlify),
       }),
       new Dotenv(),
       isDevMode && new ForkTsCheckerWebpackPlugin(),
