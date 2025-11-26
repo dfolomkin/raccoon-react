@@ -2,20 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
 import { FormButton } from 'components'
-import {
-  FETCH_STATUS,
-  FETCH_TYPE,
-  ROUTES,
-  UPLOADS_BASE_URL,
-} from 'shared/constants'
+import { ROUTES, UPLOADS_BASE_URL } from 'shared/constants'
 import { ArticleForm } from 'shared/types'
-import { useAppDispatch, useAppSelector } from 'store'
 import {
-  createArticle,
-  fetchArticle,
-  resetArticleSlice,
-  updateArticle,
-} from 'store/slices/articleSlice'
+  useGetArticleQueryCustom,
+  usePostArticleMutationCustom,
+  usePutArticleMutationCustom,
+} from 'store/api'
 
 import {
   Form,
@@ -47,13 +40,15 @@ interface FormFields {
 }
 
 export const ArticleEdit: React.FC = () => {
-  const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const { id } = useParams()
 
-  const { fetchType, status, data, error } = useAppSelector(
-    (state) => state.article
-  )
+  const { data, error, isFetching, isSuccess, isError } =
+    useGetArticleQueryCustom(id, { skip: id === undefined })
+  const [updateArticle, { isSuccess: isSuccessUpdate }] =
+    usePutArticleMutationCustom()
+  const [createArticle, { isSuccess: isSuccessCreate }] =
+    usePostArticleMutationCustom()
   const [articleData, setArticleData] = useState<ArticleForm | null>({
     author: '',
     title: '',
@@ -62,12 +57,6 @@ export const ArticleEdit: React.FC = () => {
     imageFileName: '',
   })
   const [isChanged, setIsChanged] = useState(false)
-
-  useEffect(() => {
-    if (id) {
-      dispatch(fetchArticle(id))
-    }
-  }, [dispatch, id])
 
   useEffect(() => {
     if (data) {
@@ -82,17 +71,13 @@ export const ArticleEdit: React.FC = () => {
         imageFileName,
       })
     }
-  }, [data, status])
+  }, [data, isFetching, isSuccess, isError])
 
   useEffect(() => {
-    if (
-      (fetchType === FETCH_TYPE.create || fetchType === FETCH_TYPE.update) &&
-      status === FETCH_STATUS.succeeded
-    ) {
+    if (isSuccessUpdate || isSuccessCreate) {
       navigate(ROUTES.articles)
-      dispatch(resetArticleSlice())
     }
-  }, [dispatch, fetchType, navigate, status])
+  }, [isSuccessCreate, isSuccessUpdate, navigate])
 
   const handleFormChange = (event: React.ChangeEvent<HTMLFormElement>) => {
     if (event.target.id === FORM_FIELDS.imageFile) {
@@ -157,9 +142,9 @@ export const ArticleEdit: React.FC = () => {
     }
 
     if (id) {
-      dispatch(updateArticle({ id, formData }))
+      updateArticle({ id, formData })
     } else {
-      dispatch(createArticle(formData))
+      createArticle(formData)
     }
   }
 
@@ -167,7 +152,7 @@ export const ArticleEdit: React.FC = () => {
     navigate(ROUTES.articles)
   }
 
-  if (error) {
+  if (isError) {
     return <div>{error.message}</div>
   }
 

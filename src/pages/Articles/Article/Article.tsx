@@ -6,8 +6,7 @@ import { Modal, Socials } from 'components'
 import { Box } from 'components/flexbox'
 import { ROUTES, UPLOADS_BASE_URL } from 'shared/constants'
 import { IArticle } from 'shared/types'
-import { useAppDispatch } from 'store'
-import { deleteArticle } from 'store/slices/articleSlice'
+import { useLazyDeleteArticleQueryCustom } from 'store/api'
 
 import {
   ArticleContent,
@@ -27,9 +26,9 @@ export interface ArticleProps {
 }
 
 export const Article: React.FC<ArticleProps> = ({ articleData }) => {
-  const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
+  const [deleteArticle] = useLazyDeleteArticleQueryCustom()
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
 
   const { id } = articleData
@@ -42,8 +41,8 @@ export const Article: React.FC<ArticleProps> = ({ articleData }) => {
     setIsDeleteModalOpen(true)
   }
 
-  const handleDeleteModalAccept = async () => {
-    dispatch(deleteArticle(String(id)))
+  const handleDeleteModalAccept = () => {
+    deleteArticle(String(id))
     setIsDeleteModalOpen(false)
     navigate(0)
   }

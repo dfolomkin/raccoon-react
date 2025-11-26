@@ -1,9 +1,7 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 
 import { Loader, Tags } from 'components'
-import { FETCH_STATUS } from 'shared/constants'
-import { useAppDispatch, useAppSelector } from 'store'
-import { fetchTags } from 'store/slices/tagsSlice'
+import { useGetTagsQueryCustom } from 'store/api'
 
 import {
   ArrowIcon,
@@ -31,13 +29,8 @@ export const Aside: React.FC<AsideProps> = ({
   onInfoToggle,
   onTagsToggle,
 }) => {
-  const dispatch = useAppDispatch()
-
-  const { status, data, error } = useAppSelector((state) => state.tags)
-
-  useEffect(() => {
-    dispatch(fetchTags())
-  }, [dispatch])
+  const { data, error, isFetching, isSuccess, isError } =
+    useGetTagsQueryCustom()
 
   return (
     <>
@@ -114,9 +107,9 @@ export const Aside: React.FC<AsideProps> = ({
           </NoteIconButton>
         </NoteHeader>
         <NoteBody variant="tags" data-testid="aside-block-notebody:tags">
-          {status === FETCH_STATUS.loading && <Loader />}
-          {error && <div>{error.message}</div>}
-          {data && <Tags tagsList={data} />}
+          {isFetching && <Loader />}
+          {isError && <div>{error.message}</div>}
+          {isSuccess && <Tags tagsList={data} />}
         </NoteBody>
       </Note>
     </>

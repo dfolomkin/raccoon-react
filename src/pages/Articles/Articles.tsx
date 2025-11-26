@@ -2,28 +2,27 @@ import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 import { PageLoader } from 'components'
-import { FETCH_STATUS, ROUTES } from 'shared/constants'
+import { ROUTES } from 'shared/constants'
 import { getUrlQueryParamValue, objectIncludes } from 'shared/utils'
-import { useAppDispatch, useAppSelector } from 'store'
-import { fetchArticles } from 'store/slices/articlesSlice'
+import { useGetArticlesQueryCustom } from 'store/api'
 
 import { Article } from './Article'
 import { AddButton, ArticleWrapper, ControlPanel } from './Articles.styled'
 import { FilterBar } from './FilterBar'
 
 export const Articles: React.FC = () => {
-  const dispatch = useAppDispatch()
   const location = useLocation()
   const navigate = useNavigate()
 
-  const { status, data, error } = useAppSelector((state) => state.articles)
+  const { data, error, isFetching, isSuccess, isError, refetch } =
+    useGetArticlesQueryCustom()
   const [filter, setFilter] = useState(
     getUrlQueryParamValue(location.search.slice(1), 'filter') || ''
   )
 
   useEffect(() => {
-    dispatch(fetchArticles())
-  }, [dispatch])
+    refetch()
+  }, [refetch])
 
   const handleAddArticleClick = () => {
     navigate(ROUTES.articleNew)
@@ -55,9 +54,9 @@ export const Articles: React.FC = () => {
         </AddButton>
       </ControlPanel>
 
-      {status === FETCH_STATUS.loading && <PageLoader />}
-      {error && <div data-testid="articles-block-error">{error.message}</div>}
-      {data &&
+      {isFetching && <PageLoader />}
+      {isError && <div data-testid="articles-block-error">{error.message}</div>}
+      {isSuccess &&
         filteredData.map((item) => (
           <ArticleWrapper key={item.id}>
             <Article articleData={item} />

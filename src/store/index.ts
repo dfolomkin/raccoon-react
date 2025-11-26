@@ -1,16 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { useDispatch, useSelector } from 'react-redux'
 
-import articleReducer from './slices/articleSlice'
-import articlesReducer from './slices/articlesSlice'
-import tagsReducer from './slices/tagsSlice'
+import { api } from './api'
 
 export const store = configureStore({
   reducer: {
-    articles: articlesReducer,
-    article: articleReducer,
-    tags: tagsReducer,
+    [api.reducerPath]: api.reducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(api.middleware),
 })
 
 export type RootState = ReturnType<typeof store.getState>
