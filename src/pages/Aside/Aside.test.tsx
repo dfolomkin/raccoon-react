@@ -1,5 +1,6 @@
 import React from 'react'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { TagsStore } from 'src/store'
 
 import { getTags } from 'services'
 import { ITag } from 'shared/types'
@@ -24,6 +25,13 @@ jest.mock('components', () => ({
   ),
 }))
 
+const mockTagsStore: TagsStore = {
+  data: null,
+  error: null,
+  isLoading: false,
+  fetchTags: jest.fn(),
+}
+
 const mockProps = {
   isAboutOpen: false,
   isInfoOpen: false,
@@ -31,6 +39,7 @@ const mockProps = {
   onAboutToggle: jest.fn(),
   onInfoToggle: jest.fn(),
   onTagsToggle: jest.fn(),
+  tagsStore: mockTagsStore,
 }
 
 describe('Aside', () => {

@@ -3,6 +3,7 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 
 import { getArticle, postArticle, putArticle } from 'services'
+import { ArticleStore } from 'store'
 
 import { ArticleEdit } from './ArticleEdit'
 
@@ -54,7 +55,7 @@ describe('ArticleEdit', () => {
   it('should render form with all form fields', async () => {
     mockGetArticle.mockResolvedValue({ data: mockArticleData, error: null })
 
-    render(<ArticleEdit />)
+    render(<ArticleEdit articleStore={{} as ArticleStore} />)
 
     await waitFor(() => {
       expect(screen.getByTestId('articleedit-form-main')).toBeInTheDocument()
@@ -71,7 +72,7 @@ describe('ArticleEdit', () => {
   it('should populate form with article data when editing', async () => {
     mockGetArticle.mockResolvedValue({ data: mockArticleData, error: null })
 
-    render(<ArticleEdit />)
+    render(<ArticleEdit articleStore={{} as ArticleStore} />)
 
     await waitFor(() => {
       expect(screen.getByTestId('articleedit-input-file')).toHaveValue('')
@@ -93,7 +94,7 @@ describe('ArticleEdit', () => {
   it('should show image preview when imageFileName exists', async () => {
     mockGetArticle.mockResolvedValue({ data: mockArticleData, error: null })
 
-    render(<ArticleEdit />)
+    render(<ArticleEdit articleStore={{} as ArticleStore} />)
 
     await waitFor(() => {
       expect(screen.getByTestId('articleedit-img-image')).toBeInTheDocument()
@@ -107,7 +108,7 @@ describe('ArticleEdit', () => {
   it('should show content length counter', async () => {
     mockGetArticle.mockResolvedValue({ data: mockArticleData, error: null })
 
-    render(<ArticleEdit />)
+    render(<ArticleEdit articleStore={{} as ArticleStore} />)
 
     await waitFor(() => {
       expect(
@@ -119,7 +120,7 @@ describe('ArticleEdit', () => {
   it('should disable save button initially when no changes made', async () => {
     mockGetArticle.mockResolvedValue({ data: mockArticleData, error: null })
 
-    render(<ArticleEdit />)
+    render(<ArticleEdit articleStore={{} as ArticleStore} />)
 
     await waitFor(() => {
       const saveButton = screen.getByTestId('articleedit-button-save')
@@ -131,7 +132,7 @@ describe('ArticleEdit', () => {
   it('should enable save button when form changes are made', async () => {
     mockGetArticle.mockResolvedValue({ data: mockArticleData, error: null })
 
-    render(<ArticleEdit />)
+    render(<ArticleEdit articleStore={{} as ArticleStore} />)
 
     await waitFor(() => {
       const authorInput = screen.getByTestId('articleedit-input-author')
@@ -153,7 +154,10 @@ describe('ArticleEdit', () => {
     render(
       <MemoryRouter initialEntries={['/article-edit/1']}>
         <Routes>
-          <Route path="/article-edit/:id" element={<ArticleEdit />} />
+          <Route
+            path="/article-edit/:id"
+            element={<ArticleEdit articleStore={{} as ArticleStore} />}
+          />
         </Routes>
       </MemoryRouter>
     )
@@ -180,7 +184,10 @@ describe('ArticleEdit', () => {
     render(
       <MemoryRouter initialEntries={['/article-new']}>
         <Routes>
-          <Route path="/article-new" element={<ArticleEdit />} />
+          <Route
+            path="/article-new"
+            element={<ArticleEdit articleStore={{} as ArticleStore} />}
+          />
         </Routes>
       </MemoryRouter>
     )
@@ -204,7 +211,7 @@ describe('ArticleEdit', () => {
   it('should navigate to articles when cancel button is clicked', async () => {
     mockGetArticle.mockResolvedValue({ data: mockArticleData, error: null })
 
-    render(<ArticleEdit />)
+    render(<ArticleEdit articleStore={{} as ArticleStore} />)
 
     await waitFor(() => {
       const cancelButton = screen.getByTestId('articleedit-button-cancel')
@@ -222,7 +229,7 @@ describe('ArticleEdit', () => {
 
     mockGetArticle.mockResolvedValue({ data: null, error: mockError })
 
-    render(<ArticleEdit />)
+    render(<ArticleEdit articleStore={{} as ArticleStore} />)
 
     await waitFor(() => {
       expect(screen.getByText('Failed to fetch article')).toBeInTheDocument()
@@ -232,7 +239,7 @@ describe('ArticleEdit', () => {
   it('should update tags when tags input changes', async () => {
     mockGetArticle.mockResolvedValue({ data: mockArticleData, error: null })
 
-    render(<ArticleEdit />)
+    render(<ArticleEdit articleStore={{} as ArticleStore} />)
 
     await waitFor(() => {
       const tagsInput = screen.getByTestId('articleedit-input-tags')
@@ -250,7 +257,7 @@ describe('ArticleEdit', () => {
   xit('should handle content textarea change and update counter', async () => {
     mockGetArticle.mockResolvedValue({ data: mockArticleData, error: null })
 
-    render(<ArticleEdit />)
+    render(<ArticleEdit articleStore={{} as ArticleStore} />)
 
     await waitFor(() => {
       const contentTextarea = screen.getByTestId('articleedit-textarea-content')

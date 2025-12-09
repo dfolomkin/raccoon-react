@@ -4,6 +4,7 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { ModalProps } from 'components/Modal'
 import { SocialsProps } from 'components/Socials'
 import { deleteArticle } from 'services'
+import { ArticleStore } from 'store'
 
 import { Article } from './Article'
 
@@ -74,7 +75,12 @@ const mockArticleData = {
 
 describe('Article', () => {
   it('should render all article blocks with correct content', () => {
-    render(<Article articleData={mockArticleData} />)
+    render(
+      <Article
+        articleData={mockArticleData}
+        articleStore={{} as ArticleStore}
+      />
+    )
 
     // Check image
     const image = screen.getByTestId(`article-img-image:${mockArticleData.id}`)
@@ -155,7 +161,12 @@ describe('Article', () => {
   })
 
   it('should navigate to edit page when edit button is clicked', async () => {
-    render(<Article articleData={mockArticleData} />)
+    render(
+      <Article
+        articleData={mockArticleData}
+        articleStore={{} as ArticleStore}
+      />
+    )
 
     const editButton = screen.getByTestId(
       `article-button-edit:${mockArticleData.id}`
@@ -171,7 +182,12 @@ describe('Article', () => {
   })
 
   it('should open delete modal when delete button is clicked', () => {
-    render(<Article articleData={mockArticleData} />)
+    render(
+      <Article
+        articleData={mockArticleData}
+        articleStore={{} as ArticleStore}
+      />
+    )
 
     const deleteButton = screen.getByTestId(
       `article-button-delete:${mockArticleData.id}`
@@ -186,7 +202,12 @@ describe('Article', () => {
   })
 
   it('should close delete modal when cancel is clicked', async () => {
-    render(<Article articleData={mockArticleData} />)
+    render(
+      <Article
+        articleData={mockArticleData}
+        articleStore={{} as ArticleStore}
+      />
+    )
 
     // Open modal
     const deleteButton = screen.getByTestId(
@@ -207,7 +228,12 @@ describe('Article', () => {
   })
 
   it('should delete article and refresh when modal accept is clicked', async () => {
-    render(<Article articleData={mockArticleData} />)
+    render(
+      <Article
+        articleData={mockArticleData}
+        articleStore={{} as ArticleStore}
+      />
+    )
 
     // Open modal
     const deleteButton = screen.getByTestId(
@@ -229,7 +255,12 @@ describe('Article', () => {
   })
 
   it('should not render modal initially', () => {
-    render(<Article articleData={mockArticleData} />)
+    render(
+      <Article
+        articleData={mockArticleData}
+        articleStore={{} as ArticleStore}
+      />
+    )
 
     expect(screen.queryByTestId('modal')).not.toBeInTheDocument()
   })
@@ -242,7 +273,12 @@ describe('Article', () => {
       author: 'Jane Smith',
     }
 
-    render(<Article articleData={differentArticleData} />)
+    render(
+      <Article
+        articleData={differentArticleData}
+        articleStore={{} as ArticleStore}
+      />
+    )
 
     expect(screen.getByTestId('article-header-title:2')).toHaveTextContent(
       'Different Title'

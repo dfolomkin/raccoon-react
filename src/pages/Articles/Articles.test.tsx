@@ -8,6 +8,7 @@ import {
 } from '@testing-library/react'
 
 import { getArticles } from 'services'
+import { ArticlesStore } from 'store'
 
 import { ArticleProps } from './Article/Article'
 import { Articles } from './Articles'
@@ -58,6 +59,17 @@ jest.mock('./Article', () => ({
   ),
 }))
 
+const mockArticlesStore: ArticlesStore = {
+  data: null,
+  error: null,
+  isLoading: false,
+  fetchArticles: jest.fn(),
+}
+
+const mockArticlesProps = {
+  articlesStore: mockArticlesStore,
+}
+
 const mockArticlesData = [
   {
     id: 1,
@@ -97,7 +109,7 @@ describe('Articles', () => {
   it('should render control panel with FilterBar and AddButton', async () => {
     mockGetArticles.mockResolvedValue({ data: [], error: null })
 
-    render(<Articles />)
+    render(<Articles {...mockArticlesProps} />)
 
     await waitFor(() => {
       expect(screen.getByTestId('articles-block-controls')).toBeInTheDocument()
@@ -113,7 +125,7 @@ describe('Articles', () => {
   it('should show loading state when data is fetching', async () => {
     mockGetArticles.mockImplementation(() => new Promise(() => {}))
 
-    render(<Articles />)
+    render(<Articles {...mockArticlesProps} />)
 
     await waitFor(() => {
       expect(screen.getByTestId('page-loader')).toBeInTheDocument()
@@ -125,7 +137,7 @@ describe('Articles', () => {
 
     mockGetArticles.mockResolvedValue({ data: null, error: mockError })
 
-    render(<Articles />)
+    render(<Articles {...mockArticlesProps} />)
 
     await waitFor(() => {
       const errorBlock = screen.getByTestId('articles-block-error')
@@ -138,7 +150,7 @@ describe('Articles', () => {
   it('should render articles list when data is loaded', async () => {
     mockGetArticles.mockResolvedValue({ data: mockArticlesData, error: null })
 
-    render(<Articles />)
+    render(<Articles {...mockArticlesProps} />)
 
     await waitFor(() => {
       const articalOne = screen.getByTestId('article-1')
@@ -156,7 +168,7 @@ describe('Articles', () => {
   it('should navigate to new article page when add button is clicked', async () => {
     mockGetArticles.mockResolvedValue({ data: [], error: null })
 
-    render(<Articles />)
+    render(<Articles {...mockArticlesProps} />)
 
     const addButton = screen.getByTestId('articles-button-addarticle')
 
@@ -170,7 +182,7 @@ describe('Articles', () => {
   it('should update filter and navigate when FilterBar onChange is called', async () => {
     mockGetArticles.mockResolvedValue({ data: [], error: null })
 
-    render(<Articles />)
+    render(<Articles {...mockArticlesProps} />)
 
     const filterInput = screen.getByTestId('filterbar-input')
 
@@ -184,7 +196,7 @@ describe('Articles', () => {
   it('should navigate without filter when empty value is provided', async () => {
     mockGetArticles.mockResolvedValue({ data: [], error: null })
 
-    render(<Articles />)
+    render(<Articles {...mockArticlesProps} />)
 
     const filterInput = screen.getByTestId('filterbar-input')
 
@@ -200,7 +212,7 @@ describe('Articles', () => {
     mockGetUrlQueryParamValue.mockReturnValue('initial-filter')
     mockGetArticles.mockResolvedValue({ data: [], error: null })
 
-    render(<Articles />)
+    render(<Articles {...mockArticlesProps} />)
 
     await waitFor(() => {
       const filterInput = screen.getByTestId('filterbar-input')
@@ -212,7 +224,7 @@ describe('Articles', () => {
   it('should call getArticles on component mount', async () => {
     mockGetArticles.mockResolvedValue({ data: [], error: null })
 
-    render(<Articles />)
+    render(<Articles {...mockArticlesProps} />)
 
     await waitFor(() => {
       expect(mockGetArticles).toHaveBeenCalledTimes(1)

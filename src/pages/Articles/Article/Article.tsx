@@ -4,9 +4,9 @@ import { useNavigate } from 'react-router-dom'
 
 import { Modal, Socials } from 'components'
 import { Box } from 'components/flexbox'
-import { deleteArticle } from 'services'
 import { ROUTES, UPLOADS_BASE_URL } from 'shared/constants'
 import { IArticle } from 'shared/types'
+import { ArticleStore } from 'store'
 
 import {
   ArticleContent,
@@ -23,14 +23,19 @@ import {
 
 export interface ArticleProps {
   articleData: IArticle
+  articleStore: ArticleStore
 }
 
-export const Article: React.FC<ArticleProps> = ({ articleData }) => {
+export const Article: React.FC<ArticleProps> = ({
+  articleData,
+  articleStore,
+}) => {
   const navigate = useNavigate()
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
 
   const { id } = articleData
+  const { deleteArticle } = articleStore
 
   const handleEditClick = () => {
     navigate(`${ROUTES.articleEdit}/${id}`)

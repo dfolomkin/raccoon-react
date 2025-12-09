@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Outlet } from 'react-router-dom'
 
 import { Aside } from 'pages'
+import { tagsStore } from 'store'
 
 import { Header } from '../Header'
 
@@ -74,6 +75,7 @@ export const MainLayout: React.FC = () => {
             onAboutToggle={handleAboutToggle}
             onInfoToggle={handleInfoToggle}
             onTagsToggle={handleTagsToggle}
+            tagsStore={tagsStore}
           />
         </AsideWrapper>
       </PageContainer>

@@ -74,3 +74,15 @@ export const SOCIALS_COLOR_MAP: Record<ISocial, string> = {
   vk: '#45668e',
   yaru: '#cb2027',
 }
+
+const FETCH_TYPE_BASE = {
+  create: 'create',
+  read: 'read',
+  update: 'update',
+  delete: 'delete',
+}
+
+export const FETCH_TYPE = FETCH_TYPE_BASE as Record<
+  keyof typeof FETCH_TYPE_BASE,
+  keyof typeof FETCH_TYPE_BASE
+>

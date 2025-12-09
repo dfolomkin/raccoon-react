@@ -10,6 +10,7 @@ import { MainLayout } from 'pages'
 // import { MainLayout } from 'pages/MainLayout'
 import { ROUTES, THEME_SPEC } from 'shared/constants'
 import { useColorScheme } from 'shared/hooks'
+import { articlesStore, articleStore } from 'store'
 
 import styles from './App.module.less'
 
@@ -50,13 +51,22 @@ export const App = () => {
           <Suspense fallback={<PageLoader />}>
             <Routes>
               <Route element={<MainLayout />}>
-                <Route index element={<Articles />} />
-                <Route path={ROUTES.articles} element={<Articles />} />
+                <Route
+                  index
+                  element={<Articles articlesStore={articlesStore} />}
+                />
+                <Route
+                  path={ROUTES.articles}
+                  element={<Articles articlesStore={articlesStore} />}
+                />
                 <Route
                   path={`${ROUTES.articleEdit}/:id`}
-                  element={<ArticleEdit />}
+                  element={<ArticleEdit articleStore={articleStore} />}
                 />
-                <Route path={ROUTES.articleNew} element={<ArticleEdit />} />
+                <Route
+                  path={ROUTES.articleNew}
+                  element={<ArticleEdit articleStore={articleStore} />}
+                />
               </Route>
               <Route
                 path="*"
