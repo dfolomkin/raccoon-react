@@ -4,23 +4,26 @@ import { THEME } from 'shared/constants'
 import { Theme } from 'shared/types'
 
 export const useColorScheme = () => {
-  const dark = window.matchMedia('(prefers-color-scheme: dark)')
+  // NOTE: disabled for SSR, window === undefined
+  // const dark = window.matchMedia('(prefers-color-scheme: dark)')
 
-  const [scheme, setScheme] = useState<Theme>(
-    dark.matches ? THEME.dark : THEME.light
-  )
+  // const [scheme, setScheme] = useState<Theme>(
+  //   dark.matches ? THEME.dark : THEME.light
+  // )
 
-  useEffect(() => {
-    const handleDarkChange = (e: { matches: boolean }) => {
-      setScheme(e.matches ? THEME.dark : THEME.light)
-    }
+  // useEffect(() => {
+  //   const handleDarkChange = (e: { matches: boolean }) => {
+  //     setScheme(e.matches ? THEME.dark : THEME.light)
+  //   }
 
-    dark.addEventListener('change', handleDarkChange)
+  //   dark.addEventListener('change', handleDarkChange)
 
-    return () => {
-      dark.removeEventListener('change', handleDarkChange)
-    }
-  }, [dark])
+  //   return () => {
+  //     dark.removeEventListener('change', handleDarkChange)
+  //   }
+  // }, [dark])
 
-  return scheme
+  // return scheme
+
+  return THEME.light
 }

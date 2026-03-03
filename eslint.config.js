@@ -11,7 +11,7 @@ import globals from 'globals'
 
 export default defineConfig([
   {
-    ignores: ['*.config.js', '*.d.ts', 'server', 'netlify'],
+    ignores: ['*.config.js', '*.d.ts', 'server', 'netlify', 'ssr'],
   },
   {
     files: ['src/**/*.{js,ts,jsx,tsx}'],
